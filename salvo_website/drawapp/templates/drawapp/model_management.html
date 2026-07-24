@@ -270,12 +270,12 @@
         .file-input-container {
             flex-direction: column;
         }
-        
+
         .model-item {
             flex-direction: column;
             text-align: center;
         }
-        
+
         .page-title {
             font-size: 2rem;
         }
@@ -292,23 +292,24 @@
         </h1>
         <p class="page-subtitle">Manage neural networks for the scribble game</p>
     </div>
-    
+
     <!-- Launch Game Button - TOP PRIORITY -->
     <div class="text-center animate-on-scroll mb-4">
         <button class="goto-game-btn" id="gotoGameBtn" onclick="goToGame()">
             <i class="fas fa-gamepad me-3"></i>Launch AI Challenge
         </button>
     </div>
-    
+
     <div id="statusMessage" class="status-message"></div>
-    
+
     <!-- Upload Section -->
     <div class="upload-section animate-on-scroll">
         <h3 class="code-font mb-4" style="color: var(--accent-green);">
             <i class="fas fa-upload me-2"></i>Deploy New Neural Network
         </h3>
-        <p class="text-secondary mb-4">Upload a .keras model file to add to the AI ensemble</p>
-        
+        <p class="text-secondary mb-4">Upload a .keras model file to add to the AI ensemble(Only members can upload
+            model)</p>
+
         <form id="uploadForm" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="file-input-container">
@@ -318,24 +319,30 @@
                 <input type="file" id="modelFile" name="model_file" accept=".keras" required>
                 <span id="selectedFileName" class="selected-file">No file selected</span>
             </div>
-            <div class="btn-primary disabled">Deploy Model - Competition disabled for now...</div>
-            {% comment %} <button type="submit" class="upload-btn disabled" id="uploadBtn" disabled>
-                <i class="fas fa-rocket me-2"></i>Deploy Model
-            </button> {% endcomment %}
+            <button type="submit" class="upload-btn" id="uploadBtn" disabled>
+                <i class="fas fa-rocket me-2"></i>Deploy Modelz
+            </button>
         </form>
 
         <!-- Upload Info -->
-        <div class="mt-4 p-3" style="background: var(--code-bg); border-radius: 10px; border: 1px solid var(--border-glow);">
+        <div class="mt-4 p-3"
+            style="background: var(--code-bg); border-radius: 10px; border: 1px solid var(--border-glow);">
             <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;">
-                <div><span style="color: var(--neural-orange);">def</span> <span style="color: var(--data-yellow);">deploy_model</span>(<span style="color: var(--primary-cyan);">keras_file</span>):</div>
-                <div style="margin-left: 20px;"><span style="color: var(--primary-cyan);">model</span> = <span style="color: var(--data-yellow);">load_model</span>(<span style="color: var(--primary-cyan);">keras_file</span>)</div>
-                <div style="margin-left: 20px;"><span style="color: var(--primary-cyan);">ai_ensemble</span>.add(<span style="color: var(--primary-cyan);">model</span>)</div>
-                <div style="margin-left: 20px;"><span style="color: var(--neural-orange);">return</span> <span style="color: var(--accent-green)">"Model deployed successfully!"</span></div>
+                <div><span style="color: var(--neural-orange);">def</span> <span
+                        style="color: var(--data-yellow);">deploy_model</span>(<span
+                        style="color: var(--primary-cyan);">keras_file</span>):</div>
+                <div style="margin-left: 20px;"><span style="color: var(--primary-cyan);">model</span> = <span
+                        style="color: var(--data-yellow);">load_model</span>(<span
+                        style="color: var(--primary-cyan);">keras_file</span>)</div>
+                <div style="margin-left: 20px;"><span style="color: var(--primary-cyan);">ai_ensemble</span>.add(<span
+                        style="color: var(--primary-cyan);">model</span>)</div>
+                <div style="margin-left: 20px;"><span style="color: var(--neural-orange);">return</span> <span
+                        style="color: var(--accent-green)">"Model deployed successfully!"</span></div>
                 <div style="color: var(--text-secondary);"># AI model deployment system</div>
             </div>
         </div>
     </div>
-    
+
     <!-- Models Section -->
     <div class="models-section animate-on-scroll">
         <h3 class="code-font mb-4" style="color: var(--primary-cyan);">
@@ -345,7 +352,7 @@
             <!-- Models will be loaded here -->
         </div>
     </div>
-    
+
 
 
     <!-- Tech Stack Info -->
@@ -365,7 +372,8 @@
                 <p class="text-secondary small">Image classification</p>
             </div>
             <div class="col-md-3">
-                <i class="fas fa-tachometer-alt" style="font-size: 2rem; color: var(--neural-orange); margin-bottom: 10px;"></i>
+                <i class="fas fa-tachometer-alt"
+                    style="font-size: 2rem; color: var(--neural-orange); margin-bottom: 10px;"></i>
                 <h6 class="code-font text-accent">Real-time</h6>
                 <p class="text-secondary small">Live predictions</p>
             </div>
@@ -379,99 +387,99 @@
 </div>
 
 <script>
-// File input handling
-document.getElementById('modelFile').addEventListener('change', function(e) {
-    const file = e.target.files[0];
-    const fileName = document.getElementById('selectedFileName');
-    const uploadBtn = document.getElementById('uploadBtn');
-    
-    if (file) {
-        fileName.textContent = file.name;
-        fileName.style.color = 'var(--accent-green)';
-        uploadBtn.disabled = false;
-    } else {
-        fileName.textContent = 'No file selected';
-        fileName.style.color = 'var(--text-secondary)';
-        uploadBtn.disabled = true;
-    }
-});
+    // File input handling
+    document.getElementById('modelFile').addEventListener('change', function (e) {
+        const file = e.target.files[0];
+        const fileName = document.getElementById('selectedFileName');
+        const uploadBtn = document.getElementById('uploadBtn');
 
-// Form submission
-document.getElementById('uploadForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    uploadModel();
-});
-
-function showStatus(message, isError = false) {
-    const statusDiv = document.getElementById('statusMessage');
-    statusDiv.innerHTML = `<i class="fas fa-${isError ? 'exclamation-triangle' : 'check-circle'} me-2"></i>${message}`;
-    statusDiv.className = `status-message ${isError ? 'status-error' : 'status-success'}`;
-    statusDiv.style.display = 'block';
-    
-    setTimeout(() => {
-        statusDiv.style.display = 'none';
-    }, 5000);
-}
-
-function uploadModel() {
-    const formData = new FormData();
-    const fileInput = document.getElementById('modelFile');
-    const file = fileInput.files[0];
-    
-    if (!file) {
-        showStatus('Please select a file', true);
-        return;
-    }
-    
-    if (!file.name.endsWith('.keras')) {
-        showStatus('Please select a .keras file', true);
-        return;
-    }
-    
-    formData.append('model_file', file);
-    formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
-    
-    const uploadBtn = document.getElementById('uploadBtn');
-    uploadBtn.disabled = true;
-    uploadBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Deploying...';
-    
-    fetch('/upload-model/', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            showStatus('Neural network deployed successfully!');
-            loadModels();
-            
-            // Reset form
-            fileInput.value = '';
-            document.getElementById('selectedFileName').textContent = 'No file selected';
-            document.getElementById('selectedFileName').style.color = 'var(--text-secondary)';
+        if (file) {
+            fileName.textContent = file.name;
+            fileName.style.color = 'var(--accent-green)';
+            uploadBtn.disabled = false;
         } else {
-            showStatus(data.error || 'Deployment failed', true);
+            fileName.textContent = 'No file selected';
+            fileName.style.color = 'var(--text-secondary)';
+            uploadBtn.disabled = true;
         }
-    })
-    .catch(error => {
-        console.error('Upload error:', error);
-        showStatus('Deployment failed. Please try again.', true);
-    })
-    .finally(() => {
-        uploadBtn.disabled = false;
-        uploadBtn.innerHTML = '<i class="fas fa-rocket me-2"></i>Deploy Model';
     });
-}
 
-function loadModels() {
-    fetch('/get-models/')
-    .then(response => response.json())
-    .then(data => {
-        const modelList = document.getElementById('modelList');
-        const gotoBtn = document.getElementById('gotoGameBtn');
-        
-        if (data.models && data.models.length > 0) {
-            modelList.innerHTML = data.models.map(model => `
+    // Form submission
+    document.getElementById('uploadForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        uploadModel();
+    });
+
+    function showStatus(message, isError = false) {
+        const statusDiv = document.getElementById('statusMessage');
+        statusDiv.innerHTML = `<i class="fas fa-${isError ? 'exclamation-triangle' : 'check-circle'} me-2"></i>${message}`;
+        statusDiv.className = `status-message ${isError ? 'status-error' : 'status-success'}`;
+        statusDiv.style.display = 'block';
+
+        setTimeout(() => {
+            statusDiv.style.display = 'none';
+        }, 5000);
+    }
+
+    function uploadModel() {
+        const formData = new FormData();
+        const fileInput = document.getElementById('modelFile');
+        const file = fileInput.files[0];
+
+        if (!file) {
+            showStatus('Please select a file', true);
+            return;
+        }
+
+        if (!file.name.endsWith('.keras')) {
+            showStatus('Please select a .keras file', true);
+            return;
+        }
+
+        formData.append('model_file', file);
+        formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
+
+        const uploadBtn = document.getElementById('uploadBtn');
+        uploadBtn.disabled = true;
+        uploadBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Deploying...';
+
+        fetch('/upload-model/', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showStatus('Neural network deployed successfully!');
+                    loadModels();
+
+                    // Reset form
+                    fileInput.value = '';
+                    document.getElementById('selectedFileName').textContent = 'No file selected';
+                    document.getElementById('selectedFileName').style.color = 'var(--text-secondary)';
+                } else {
+                    showStatus(data.error || 'Deployment failed', true);
+                }
+            })
+            .catch(error => {
+                console.error('Upload error:', error);
+                showStatus('Deployment failed. Please try again.', true);
+            })
+            .finally(() => {
+                uploadBtn.disabled = false;
+                uploadBtn.innerHTML = '<i class="fas fa-rocket me-2"></i>Deploy Model';
+            });
+    }
+
+    function loadModels() {
+        fetch('/get-models/')
+            .then(response => response.json())
+            .then(data => {
+                const modelList = document.getElementById('modelList');
+                const gotoBtn = document.getElementById('gotoGameBtn');
+
+                if (data.models && data.models.length > 0) {
+                    modelList.innerHTML = data.models.map(model => `
                 <div class="model-item">
                     <div class="model-info">
                         <div class="model-name">
@@ -489,58 +497,58 @@ function loadModels() {
                     </div>
                 </div>
             `).join('');
-            
-            gotoBtn.disabled = false;
-        } else {
-            modelList.innerHTML = `
+
+                    gotoBtn.disabled = false;
+                } else {
+                    modelList.innerHTML = `
                 <div class="no-models">
                     <i class="fas fa-robot" style="font-size: 3rem; margin-bottom: 20px; opacity: 0.5;"></i>
                     <p>No neural networks deployed yet.</p>
                     <p>Upload a .keras file to get started!</p>
                 </div>
             `;
-            gotoBtn.disabled = true;
-        }
-    })
-    .catch(error => {
-        console.error('Error loading models:', error);
-        showStatus('Failed to load neural networks', true);
-    });
-}
-
-function deleteModel(filename) {
-    if (!confirm('Are you sure you want to remove this neural network from the ensemble?')) {
-        return;
+                    gotoBtn.disabled = true;
+                }
+            })
+            .catch(error => {
+                console.error('Error loading models:', error);
+                showStatus('Failed to load neural networks', true);
+            });
     }
-    
-    fetch('/delete-model/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
-        },
-        body: JSON.stringify({ filename: filename })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            showStatus('Neural network removed successfully!');
-            loadModels();
-        } else {
-            showStatus(data.error || 'Removal failed', true);
+
+    function deleteModel(filename) {
+        if (!confirm('Are you sure you want to remove this neural network from the ensemble?')) {
+            return;
         }
-    })
-    .catch(error => {
-        console.error('Delete error:', error);
-        showStatus('Removal failed. Please try again.', true);
-    });
-}
 
-function goToGame() {
-    window.location.href = '/draw/';
-}
+        fetch('/delete-model/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: JSON.stringify({ filename: filename })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showStatus('Neural network removed successfully!');
+                    loadModels();
+                } else {
+                    showStatus(data.error || 'Removal failed', true);
+                }
+            })
+            .catch(error => {
+                console.error('Delete error:', error);
+                showStatus('Removal failed. Please try again.', true);
+            });
+    }
 
-// Load models on page load
-document.addEventListener('DOMContentLoaded', loadModels);
+    function goToGame() {
+        window.location.href = '/draw/';
+    }
+
+    // Load models on page load
+    document.addEventListener('DOMContentLoaded', loadModels);
 </script>
 {% endblock %}

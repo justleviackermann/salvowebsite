@@ -27,7 +27,7 @@ from tracker import views as v1
 from AAAS import views as aaas_views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('kesav_the_wheel_chair_guy/', admin.site.urls),
     path('', home),
     path('home/', home, name='home'),
     path('member_home/', member_dashboard, name='member_dashboard'),
@@ -58,11 +58,10 @@ urlpatterns = [
     path('draw/', views.draw_page, name='draw'),
     path('predict/', views.predict, name='predict'),  # AJAX endpoint
     path('models/', views.model_management, name='models'),  # NEW
-    path('upload-model/', views.upload_model, name='upload_model'),
+    path('upload-model/', views.upload_model, name='drawapp_upload_model'),
     path('get-models/', views.get_models, name='get_models'),
     path('delete-model/', views.delete_model, name='delete_model'),
-    path('get-models/', views.get_models, name='get_models'),
-    path('play/draw/', views.model_management, name='models'),
+    path('play/draw/', views.model_management, name='play_draw'),
 
     # Tracker URLs
     path('tracker-home/',v1.home),
@@ -78,7 +77,7 @@ urlpatterns = [
     path('visualizations/', include('visualizations.urls')),
     
     # AAAS URLs
-    path('upload_aaas_model/', aaas_views.upload_model, name='upload_model'),
+    path('upload_aaas_model/', aaas_views.upload_model, name='aaas_upload_model'),
     path('repo/', aaas_views.aaas_repository, name='aaas_repo'),
     path('repo/<int:model_id>/', aaas_views.aaas_detail, name='aaas_detail'),   
     path('delete_openmodel/<int:model_id>/',aaas_views.delete_openmodel, name='delete_openmodel'),

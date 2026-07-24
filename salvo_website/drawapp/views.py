@@ -23,16 +23,71 @@ from datetime import datetime
 import shutil
 # Create your views here.
 
-DEFAULT_MODEL_FILENAME= "StackPainter27.keras"
 # === Global Constants ===
+DEFAULT_MODEL_FILENAME = "StackPainter27.keras"
 MODEL_PATH = os.path.join(os.path.dirname(__file__), DEFAULT_MODEL_FILENAME)
-MODELS_DIR = os.path.join(settings.MEDIA_ROOT, 'models')
+
+# Use Hugging Face mounted Bucket if it exists, otherwise use local storage
+if os.path.exists('/data'):
+    MODELS_DIR = '/data/models'
+else:
+    MODELS_DIR = os.path.join(settings.MEDIA_ROOT, 'models')
 
 # Ensure models directory exists
 os.makedirs(MODELS_DIR, exist_ok=True)
 
+import threading
+from collections import OrderedDict
+import tensorflow as tf
+
+class LRUModelCache:
+    def __init__(self, capacity=3):
+        self.cache = OrderedDict()
+        self.capacity = capacity
+        self.lock = threading.Lock()
+
+    def __getitem__(self, key):
+        with self.lock:
+            value = self.cache.pop(key)
+            self.cache[key] = value
+            return value
+
+    def __setitem__(self, key, value):
+        with self.lock:
+            if key in self.cache:
+                self.cache.pop(key)
+            elif len(self.cache) >= self.capacity:
+                old_key, old_value = self.cache.popitem(last=False)
+                tf.keras.backend.clear_session()
+                print(f"Unloaded model {old_key} from memory to free space.")
+            self.cache[key] = value
+
+    def __contains__(self, key):
+        with self.lock:
+            return key in self.cache
+
+    def __delitem__(self, key):
+        with self.lock:
+            del self.cache[key]
+
+    def __len__(self):
+        with self.lock:
+            return len(self.cache)
+
+    def items(self):
+        with self.lock:
+            return list(self.cache.items())
+
+    def get(self, key, default=None):
+        with self.lock:
+            if key in self.cache:
+                value = self.cache.pop(key)
+                self.cache[key] = value
+                return value
+            return default
+
 # Global dictionary to store loaded models
-loaded_models = {}
+loaded_models = LRUModelCache(capacity=2)
 model_lock = threading.Lock()
 
 # Load default model only once
@@ -158,6 +213,9 @@ def upload_model(request):
     if request.method != 'POST':
         return JsonResponse({'success': False, 'error': 'POST request required'})
     
+    if request.session.get('user_type') != 'member':
+        return JsonResponse({'success': False, 'error': 'Unauthorized'}, status=401)
+    
     if 'model_file' not in request.FILES:
         print("❌ No file received in upload.")
         return JsonResponse({'success': False, 'error': 'No file uploaded'})
@@ -169,7 +227,7 @@ def upload_model(request):
         return JsonResponse({'success': False, 'error': 'File must be a .keras file'})
     
     try:
-        filename = uploaded_file.name
+        filename = os.path.basename(uploaded_file.name)
         if filename == DEFAULT_MODEL_FILENAME:
             return JsonResponse({'success': False, 'error': 'Filename conflicts with default model'})
 
@@ -223,9 +281,12 @@ def delete_model(request):
     if request.method != 'POST':
         return JsonResponse({'success': False, 'error': 'POST request required'})
     
+    if request.session.get('user_type') != 'member':
+        return JsonResponse({'success': False, 'error': 'Unauthorized'}, status=401)
+    
     try:
         data = json.loads(request.body)
-        filename = data.get('filename')
+        filename = os.path.basename(data.get('filename', ''))
         
         if not filename:
             return JsonResponse({'success': False, 'error': 'Filename required'})
@@ -253,43 +314,6 @@ def delete_model(request):
         return JsonResponse({'success': False, 'error': str(e)})
     
 
-
-# === Global Constants ===
-MODEL_PATH = os.path.join(os.path.dirname(__file__), "StackPainter27.keras")
-
-# Load model only once
-from threading import Lock
-models_dir = os.path.join(settings.MEDIA_ROOT, 'models')
-model_files = sorted([f for f in os.listdir(MODELS_DIR) if f.endswith('.keras')])
-
-
-# Thread-safe model loading
-model_lock = Lock()
-models = []
-with model_lock:
-    for f in model_files:
-        try:
-            models.append(load_model(os.path.join(models_dir, f)))
-            print(f"✅ Loaded model: {f}")
-        except Exception as e:
-            print(f"❌ Failed to load model {f}: {e}")
-
-BASE_DIR = os.path.dirname(__file__)
-CLASSES_PATH = os.path.join(BASE_DIR, "classes.txt")
-
-with open(CLASSES_PATH, 'r') as f:
-    CLASSES = [line.strip() for line in f.readlines()]
-    
-def image_to_base64(img):
-    """Converts a single-channel image array to base64 PNG."""
-    pil_img = Image.fromarray((img * 255).astype(np.uint8)).convert("L")
-    buf = BytesIO()
-    pil_img.save(buf, format="PNG")
-    return base64.b64encode(buf.getvalue()).decode("utf-8")
-
-
-
-
 def draw_page(request):
     # if 'username' not in request.session:
     #     return redirect('username')
@@ -313,7 +337,6 @@ def draw_page(request):
     })
     
 
-import random
 
 def extract_and_resize_parts(base64_img, size=(128, 128), rotation_prob=0.3):
     header, encoded = base64_img.split(",", 1)

@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import dotenv
 import os
+from pathlib import Path
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMP_DIR = os.path.join(BASE_DIR, 'templates')
@@ -23,10 +25,10 @@ dotenv.load_dotenv()
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-aiw(0k*fr05@@eq2&8+)+l&e_h^=l*u1)z%e)6^!$#r#_-82v*'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-aiw(0k*fr05@@eq2&8+)+l&e_h^=l*u1)z%e)6^!$#r#_-82v*')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 # Allow Hugging Face domains to access your app
 ALLOWED_HOSTS = ['.hf.space', '.huggingface.co', 'localhost', '127.0.0.1']
 
@@ -59,6 +61,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -91,15 +94,14 @@ WSGI_APPLICATION = 'salvo_website.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    },
-    'tracker': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME' : BASE_DIR / 'db-tracker.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=os.getenv('DATABASE_URL'),
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
 }
 
 

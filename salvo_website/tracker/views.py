@@ -5,6 +5,7 @@ from .models import Attendance, Meeting, Member, Contribution
 from .forms import MemberForm, AttendanceFileForm, AddMinutes
 from website.models import Member as WebMember
 import csv
+import ast
 import json
 import datetime as dt
 from django.db.models.functions import Cast
@@ -47,8 +48,8 @@ def home(request):
         return denied
     # Fetch all members and their attendance details
 
-    members = Member.objects.using("tracker").using('tracker').filter(Q(role='Member') | Q(role='Co-ordinator'))
-    attendance_data = Attendance.objects.using("tracker").using('tracker').all()
+    members = Member.objects.using('tracker').filter(Q(role='Member') | Q(role='Co-ordinator'))
+    attendance_data = Attendance.objects.using('tracker').all()
     member_wise_attendance_duration={member.name:0 for member in members}
     for member in members:
         for member_detail in attendance_data:
@@ -58,7 +59,7 @@ def home(request):
     # when this loop ends, every members total duration is stored as name:total_duration pair in the dictionary
     # calculate total available meeting hours for each member as well.
     # to do this we need meeting duration details
-    meetings=Meeting.objects.using("tracker").using('tracker').all()
+    meetings=Meeting.objects.using('tracker').all()
     member_wise_total_duration={member.name:0 for member in members}
     for member in members:
         for meeting in meetings:
@@ -105,7 +106,7 @@ def add_members(request):
             emailid=form.cleaned_data['emailid']
             regno=form.cleaned_data['regno']
             role=form.cleaned_data['role']
-            qs=Member.objects.using("tracker").using('tracker').filter(name=name)
+            qs=Member.objects.using('tracker').filter(name=name)
             if len(qs)==0:
                 m=Member(name=name,emailid=emailid,regno=regno,role=role,joined_on=dt.date.today())
                 m.save()
@@ -121,7 +122,7 @@ def view_members(request):
     denied = _check_tracker_access(request)
     if denied:
         return denied
-    qs = Member.objects.using("tracker").using('tracker').all()
+    qs = Member.objects.using('tracker').all()
     msg=''
     if len(qs)!=0:
         return render(request,'tracker-templates/view_members.html',{'qs':qs,'msg':msg})
@@ -132,7 +133,7 @@ def view_meetings(request):
     denied = _check_tracker_access(request)
     if denied:
         return denied
-    qs = Meeting.objects.using("tracker").using('tracker').all()
+    qs = Meeting.objects.using('tracker').all()
     msg=''
     if len(qs)!=0:
         return render(request,'tracker-templates/view_meetings.html',{'qs':qs,'msg':msg})
@@ -160,25 +161,24 @@ def upload_attendance_file(request):
             #print(attendees)
             for i in attendees:
                 if len(i)>0:
-                    print(eval(i))
-                    i=eval(i)
+                    i = ast.literal_eval(i)
                     member_name=i[0]
                     first_seen=dt.datetime.strptime(i[1],'%Y-%m-%d %H:%M:%S')
                     duration=dt.datetime.strptime(i[2],'%H:%M:%S')
                     duration=dt.timedelta(hours=duration.hour,minutes=duration.minute,seconds=duration.second)
                     #print(member_name,first_seen,duration)
-                    members=Member.objects.using("tracker").using('tracker').filter(name=member_name)
+                    members=Member.objects.using('tracker').filter(name=member_name)
                     if not members:
                         msg=f'Unregistered Person-{member_name} found in meeting, skipped.'
                         continue
-                    x=Attendance.objects.using("tracker").using('tracker').filter(member_name=member_name,first_seen=first_seen,duration=duration,meeting_code=meeting_code).first()
+                    x=Attendance.objects.using('tracker').filter(member_name=member_name,first_seen=first_seen,duration=duration,meeting_code=meeting_code).first()
                     if x:
                         msg=f'duplicate attendance record for {member_name},{meeting_code} exists and thus was skipped'
                         continue
                     a=Attendance(member_name=member_name,first_seen=first_seen,duration=duration,meeting_code=meeting_code)
                     a.save()
             msg+='Attendance saved successfully from file\n'
-            qs=Meeting.objects.using("tracker").using('tracker').filter(code=meeting_code)
+            qs=Meeting.objects.using('tracker').filter(code=meeting_code)
             if len(qs)==0:
                 m=Meeting(title=meeting_title,date=meeting_date,code=meeting_code,start_time=start_time,end_time=end_time,attendees=attendees)
                 m.save()
@@ -196,7 +196,7 @@ def add_minutes(request, code):
         return denied
     form = AddMinutes()
     msg=''
-    qs=Meeting.objects.using("tracker").using('tracker').filter(code=code)
+    qs=Meeting.objects.using('tracker').filter(code=code)
     if len(qs)==0:
         msg='Invalid meeting code, some error occurred'
     else:
@@ -204,7 +204,7 @@ def add_minutes(request, code):
             form=AddMinutes(request.POST)
             if form.is_valid():
                 minutes=form.cleaned_data['minutes']
-                m=Meeting.objects.using("tracker").using('tracker').filter(code=code).first()
+                m=Meeting.objects.using('tracker').filter(code=code).first()
                 m.minutes_of_meeting=minutes
                 m.save()
                 msg=f"Successfully added Minutes of meet to {code}"
@@ -218,14 +218,14 @@ def meeting_stats(request):
     denied = _check_tracker_access(request)
     if denied:
         return denied
-    meeting_codes = Attendance.objects.using("tracker").using("tracker").values_list("meeting_code", flat=True).distinct()
+    meeting_codes = Attendance.objects.using("tracker").values_list("meeting_code", flat=True).distinct()
 
     if request.method == "POST":
         meeting_code = request.POST.get("meeting_code")
         if meeting_code:
             # Fetch meeting and attendance data for the selected meeting
-            meeting = Meeting.objects.using("tracker").using("tracker").filter(code=meeting_code).first()
-            attendance_data = Attendance.objects.using("tracker").using("tracker").filter(meeting_code=meeting_code)
+            meeting = Meeting.objects.using("tracker").filter(code=meeting_code).first()
+            attendance_data = Attendance.objects.using("tracker").filter(meeting_code=meeting_code)
 
             if not meeting or not attendance_data.exists():
                 return render(

@@ -8,7 +8,7 @@ class Member(models.Model):
     emailid=models.EmailField()
     role=models.CharField(max_length=20,choices=[('Member','Member'),('Co-ordinator','Co-ordinator'),('Lead','Lead')])
     regno=models.IntegerField(unique=True)
-    joined_on=models.DateField(default=django.utils.timezone.now())
+    joined_on=models.DateField(default=django.utils.timezone.now)
 
     def __str__(self):
         return f"{self.name}-({self.role})"
@@ -17,7 +17,7 @@ class Meeting(models.Model):
     title=models.CharField(max_length=100)
     code=models.CharField(max_length=25,unique=True)
     date=models.DateField()
-    start_time=models.TimeField(default=dt.datetime.now())
+    start_time=models.TimeField(default=dt.datetime.now)
     end_time=models.TimeField()
     minutes_of_meeting=models.TextField(max_length=10000)
     attendees=models.TextField(max_length=1000)
@@ -31,6 +31,9 @@ class Attendance(models.Model):
     first_seen=models.DateTimeField()
     duration=models.DurationField()
 
+def contribution_upload_path(instance, filename):
+    return f'contrib/{instance.member_name}/{filename}'
+
 class Contribution(models.Model):
     member_name=models.CharField(max_length=50,unique=True)
-    file=models.FileField(upload_to=f'media/contrib/{member_name}')
+    file=models.FileField(upload_to=contribution_upload_path)

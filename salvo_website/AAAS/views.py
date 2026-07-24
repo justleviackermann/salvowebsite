@@ -1,10 +1,9 @@
-from django.shortcuts import render, get_object_or_404
-from .models import AAAS
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from django.urls import reverse
 from website.models import Account, Member
 from django.contrib import messages
 from django.db.models import Q
+from .models import AAAS
 import os
 # Create your views here.
 #define a function for upploading open source AI models and store the files by mapping it with models.py
@@ -141,6 +140,4 @@ def delete_openmodel(request, model_id):
                 model.code_file.delete(save=False)
 
             model.delete()
-            return redirect(aaas_repository)
-        else:
-            return redirect(aaas_repository)  # Redirect if the user doesn't have permission
+    return redirect('aaas_repo')

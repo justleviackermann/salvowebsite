@@ -140,7 +140,13 @@ def login(request):
 
 def register_member(request):
     if request.session.get('user_type') != 'member':
-            return redirect(login)
+        return redirect(login)
+
+    register_no = request.session.get('register_no')
+    print("Register No:", register_no)
+    member = Member.objects.filter(register_no=register_no).first()
+    print("Member:", member)
+
     if request.method == 'POST':
         form = MemberRegistrationForm(request.POST)
         if form.is_valid():
@@ -187,14 +193,10 @@ def register_member(request):
                 
             messages.success(request, "Member registered successfully!")
             return redirect(member_dashboard)
-    
-        
-    register_no = request.session.get('register_no')
-    print("Register No:", register_no)
-    
-    member = Member.objects.filter(register_no=register_no).first()
-    print("Member:", member)
-    form = MemberRegistrationForm()
+        # form is invalid — fall through with the form that contains error messages
+    else:
+        form = MemberRegistrationForm()
+
     return render(request, 'register_member.html', {'form': form, 'member': member})
 
 def view_members(request):
@@ -207,7 +209,10 @@ def account_dashboard(request):
         return redirect(login)
 
     register_no = request.session.get('register_no')
-    account = Account.objects.get(register_no=register_no)
+    account = Account.objects.filter(register_no=register_no).first()
+    if not account:
+        request.session.flush()
+        return redirect(login)
     posts = Post.objects.all().order_by('-date')
     post_data = []
 
@@ -245,7 +250,10 @@ def member_dashboard(request):
         return redirect('login')
 
     register_no = request.session.get('register_no')
-    member = Member.objects.get(register_no=register_no)
+    member = Member.objects.filter(register_no=register_no).first()
+    if not member:
+        request.session.flush()
+        return redirect('login')
     posts = Post.objects.all().order_by('-date')
 
     liked_post_ids = PostLike.objects.filter(register_no=register_no).values_list('post_id', flat=True)
@@ -297,6 +305,8 @@ def member_dashboard(request):
 
 
 def create_post(request):
+    if 'register_no' not in request.session or 'user_type' not in request.session:
+        return redirect('login')
     if request.method == 'POST':
         if 'final_submission' in request.POST:
             # Final step: save the post with tags
@@ -419,7 +429,7 @@ def delete_post(request, post_id):
     return redirect('member_dashboard')
 
 def join_request(request, reg_no):
-    account = Account.objects.get(register_no=reg_no)
+    account = get_object_or_404(Account, register_no=reg_no)
     existing = JoinRequest.objects.filter(account=account).last()
 
     if existing and existing.status == 'Rejected':
@@ -521,20 +531,25 @@ def view_applications(request):
 
 
 def upvote_application(request, app_id):
-    member = Member.objects.get(register_no=request.session['register_no'])
-    app = JoinRequest.objects.get(id=app_id)
+    if 'register_no' not in request.session or request.session.get('user_type') != 'member':
+        return redirect('login')
+    member = get_object_or_404(Member, register_no=request.session['register_no'])
+    app = get_object_or_404(JoinRequest, id=app_id)
     app.upvotes.add(member)
     return redirect('view_applications')
 
 
 def update_application_status(request, app_id, action):
-    member = Member.objects.get(register_no=request.session['register_no'])
-    if member.club_role not in ['Lead', 'Coordinator']:
+    if 'register_no' not in request.session or request.session.get('user_type') != 'member':
+        return redirect('login')
+    member = get_object_or_404(Member, register_no=request.session['register_no'])
+    if member.club_role not in ['Lead', 'Co-ordinator']:
         return HttpResponse("Unauthorized", status=401)
     try:
-        app = JoinRequest.objects.get(id=app_id)
+        app = get_object_or_404(JoinRequest, id=app_id)
         if action == 'accept':
             app.status = 'Accepted'
+            app.save()
             # Send email to user about acceptance to become a part of the team as member
             to_email = f"{app.account.register_no}@sastra.ac.in"
             from_email = "salvo.aics@gmail.com"
@@ -569,10 +584,10 @@ def update_application_status(request, app_id, action):
                 "Email: salvo.aics@gmail.com\n"
             )
             send_custom_email(to_email, from_email, subject, body)
-        app.save()
+            app.save()
     except Exception as e:
         print("Error updating application status:", e) 
-        return render(request, 'error.html', {'message': 'Error updating application status. Please contact support. or Try againg later.'})
+        return render(request, 'error.html', {'message': 'Error updating application status. Please contact support or Try again later.'})
     return redirect('view_applications')
 
 
@@ -624,7 +639,7 @@ def member_profile(request, reg_no):
 
 
 def edit_member_profile(request, reg_no):
-    if 'register_no' not in request.session or request.session['user_type'] != 'member' and reg_no != request.session['register_no']:
+    if 'register_no' not in request.session or (request.session.get('user_type') != 'member' and reg_no != request.session.get('register_no')):
         return redirect('login')
     # Fetch the member object
     member = get_object_or_404(Member, register_no=reg_no)
@@ -672,7 +687,7 @@ def edit_member_profile(request, reg_no):
 
 
 def edit_account_profile(request, reg_no):
-    if 'register_no' not in request.session or request.session['user_type'] != 'account' and reg_no != request.session['register_no']:
+    if 'register_no' not in request.session or (request.session.get('user_type') != 'account' and reg_no != request.session['register_no']):
         return redirect('login')
     # Fetch the account object
     account = get_object_or_404(Account, register_no=reg_no)
@@ -720,16 +735,18 @@ def edit_account_profile(request, reg_no):
     return render(request, 'edit_account_profile.html', {'account': account})
 
 def delete_account(request, reg_no):
-    member = get_object_or_404(Account, register_no=reg_no)
-    member.delete()
-    #messages.error(request, "Your account has been deleted.")
-    return redirect('logout')  # change 'home' to your desired redirect
+    if request.session.get('register_no') != reg_no:
+        return redirect('login')
+    account = get_object_or_404(Account, register_no=reg_no)
+    account.delete()
+    return redirect('logout')
 
 def delete_member(request, reg_no):
+    if request.session.get('register_no') != reg_no:
+        return redirect('login')
     member = get_object_or_404(Member, register_no=reg_no)
     member.delete()
-    #messages.error(request, "Your account has been deleted.")
-    return redirect('logout')  # change 'home' to your desired redirect
+    return redirect('logout')
 
 def logout(request):
     # Clear all session data

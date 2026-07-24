@@ -14,8 +14,8 @@ class Account(models.Model):
     sastra_email = models.EmailField()
     branch = models.CharField(max_length=100)
     batch = models.PositiveIntegerField()
-    posts = models.CharField(max_length=1000000, default="[0]")
-    password = models.CharField(max_length=20)
+    posts = models.TextField(default="[0]")
+    password = models.CharField(max_length=128)
     # posts stores list of post_id as a json string. will dump and load whenever necessary.
 
 
@@ -31,8 +31,8 @@ class Member(models.Model):
     sastra_email = models.EmailField()
     branch = models.CharField(max_length=100)
     batch = models.PositiveIntegerField()
-    posts = models.CharField(max_length=1000000, default="[0]")
-    password = models.CharField(max_length=20)
+    posts = models.TextField(default="[0]")
+    password = models.CharField(max_length=128)
     club_role = models.CharField(max_length=40)
     join_date = models.DateField(default=timezone.now)
     contribution_score = models.FloatField(default=0.0)
@@ -48,10 +48,10 @@ class Post(models.Model):
         author_reg_no points to regno of Account that posts the post.
     """
     post_id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=50)
-    content = models.CharField(max_length=1000000000)
+    title = models.CharField(max_length=150)
+    content = models.TextField()
     author_reg_no = models.PositiveIntegerField()
-    date = models.DateTimeField(default=dt.datetime.now())
+    date = models.DateTimeField(auto_now_add=True)
     verified = models.BooleanField(default=False)
     verified_by = models.PositiveIntegerField(blank=True, null=True)
     likes = models.IntegerField(default=0)
