@@ -101,8 +101,15 @@ DATABASES = {
         default=os.getenv('DATABASE_URL'),
         conn_max_age=600,
         conn_health_checks=True,
+    ),
+    'tracker': dj_database_url.parse(
+        os.getenv('TRACKER_DATABASE_URL'),
+        conn_max_age=600,
+        conn_health_checks=True,
     )
 }
+
+DATABASE_ROUTERS = ['salvo_website.routers.TrackerRouter']
 
 
 # Password validation
