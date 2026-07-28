@@ -66,7 +66,7 @@ def home(request):
             if member.joined_on <= meeting.date:
                 member_wise_total_duration[member.name]+=subtract(meeting.end_time,meeting.start_time)
     print(member_wise_total_duration)
-    if member_wise_total_duration!=0:
+    if member_wise_total_duration:
     # when this loop ends, every members maximum possible duration is calculated.
     # Now we have to match and calculate percentages and sort
         attendance_percentage={member.name:0 for member in members}
@@ -89,9 +89,8 @@ def home(request):
             return render(request,'tracker-templates/home.html',{'highest_attendees':column(sorted_attendance_percentage[:-7:-1],0),'lowest_attendees':column(sorted_attendance_percentage[0:6],0)})
         else:
             return render(request,'tracker-templates/home.html',{'highest_attendees':column(sorted_attendance_percentage,0)})
-    #else:
-    #code existed for first run only.
-        #return redirect('/upload_attendance_file')
+    else:
+        return render(request, 'tracker-templates/home.html', {'highest_attendees': [], 'lowest_attendees': [], 'msg': 'No attendance data available yet.'})
 
 def add_members(request):
     denied = _check_tracker_access(request)
@@ -108,8 +107,8 @@ def add_members(request):
             role=form.cleaned_data['role']
             qs=Member.objects.using('tracker').filter(name=name)
             if len(qs)==0:
-                m=Member(name=name,emailid=emailid,regno=regno,role=role,joined_on=dt.date.today())
-                m.save()
+                m = Member(name=name, emailid=emailid, regno=regno, role=role, joined_on=dt.date.today())
+                m.save(using='tracker')
                 msg=f'Member {name} added successfully !'
             else:
                 msg="Member with name already exists, use a different name."

@@ -36,7 +36,6 @@ else:
 # Ensure models directory exists
 os.makedirs(MODELS_DIR, exist_ok=True)
 
-import threading
 from collections import OrderedDict
 import tensorflow as tf
 

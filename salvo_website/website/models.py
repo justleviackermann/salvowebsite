@@ -65,7 +65,7 @@ class JoinRequest(models.Model):
         ('Rejected', 'Rejected'),
     ]
 
-    account = models.ForeignKey(Account, on_delete=models.CASCADE)
+    account = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True, blank=True)
     reason_to_join = models.TextField()
     why_recruit = models.TextField()
     other_clubs = models.TextField()

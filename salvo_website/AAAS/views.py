@@ -121,23 +121,26 @@ def aaas_detail(request, model_id):
     })
 
 def delete_openmodel(request, model_id):
-    if request.method == 'POST':
-        # Check if the user is a member and has the required role
-        register_no = request.session.get('register_no')
-        member = Member.objects.filter(register_no=register_no).first()
+    if request.method != 'POST':
+        return HttpResponse('Method Not Allowed', status=405)
 
-        if member and member.club_role in ['Lead', 'Co-ordinator']:
-            model = get_object_or_404(AAAS, id=model_id)
+    register_no = request.session.get('register_no')
+    member = Member.objects.filter(register_no=register_no).first()
 
-            # Delete associated files from the file system
-            if model.model_file:
-                model.model_file.delete(save=False)
-            if model.documentation_file:
-                model.documentation_file.delete(save=False)
-            if model.dataset_file:
-                model.dataset_file.delete(save=False)
-            if model.code_file:
-                model.code_file.delete(save=False)
+    if not member or member.club_role not in ['Lead', 'Co-ordinator']:
+        return HttpResponse('Forbidden: Only Lead or Co-ordinator can delete models.', status=403)
 
-            model.delete()
+    model = get_object_or_404(AAAS, id=model_id)
+
+    # Delete associated files from the file system
+    if model.model_file:
+        model.model_file.delete(save=False)
+    if model.documentation_file:
+        model.documentation_file.delete(save=False)
+    if model.dataset_file:
+        model.dataset_file.delete(save=False)
+    if model.code_file:
+        model.code_file.delete(save=False)
+
+    model.delete()
     return redirect('aaas_repo')

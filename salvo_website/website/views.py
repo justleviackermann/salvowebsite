@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, render, redirect, HttpResponse
 from django.contrib.auth.hashers import check_password, make_password
 from django.contrib import messages
-from django.db import models
+from django.db.models import Count
 from django.http import JsonResponse
 from django.core.mail import send_mail
 from .models import Account, Member, Post, JoinRequest, PostLike
@@ -78,7 +78,7 @@ def register_account(request):
                     "To become an official club member and participate in exclusive events, please submit a membership application from your dashboard. Our team will review your application and notify you of your membership status.\n\n"
                     "Below are your login credentials for accessing the SALVO AI Club portal:\n\n"
                     f"    Username (Register Number): {reg_no}\n"
-                    f"    Password: {raw_password}\n\n"
+                    "    Password: [the password you just entered during registration]\n\n"
                     "Please keep this information confidential and secure. For your safety, we do NOT store your password in plain text. "
                     "After logging in for the first time, we strongly recommend that you change your password via your profile page.\n\n"
                     "If you have any questions or need assistance, feel free to reach out to the club coordinators or reply to this email.\n\n"
@@ -168,7 +168,7 @@ def register_member(request):
                     "Your role grants you access to exclusive resources, events, and collaborative opportunities to advance your skills and contribute to the club's initiatives.\n\n"
                     "Below are your login credentials for accessing the SALVO AI Club portal:\n\n"
                     f"    Username (Register Number): {reg_no}\n"
-                    f"    Password: {raw_password}\n\n"
+                    "    Password: [the password you entered during registration]\n\n"
                     "Please keep this information confidential and secure. For your safety, we do NOT store your password in plain text. "
                     "After logging in for the first time, we strongly recommend that you change your password via your profile page.\n\n"
                     "If you have any questions or need assistance, feel free to reach out to the club coordinators or reply to this email.\n\n"
@@ -286,7 +286,7 @@ def member_dashboard(request):
         post_data.append((post, author_info, user_type))
 
     applications = JoinRequest.objects.annotate(
-        upvote_count=models.Count('upvotes')
+        upvote_count=Count('upvotes')
     ).order_by('-upvote_count')
 
     # For resolving name → reg_no in JS search
@@ -493,7 +493,7 @@ def view_applications(request):
     
     # Base queryset with annotation
     applications_query = JoinRequest.objects.annotate(
-        upvote_count=models.Count('upvotes')
+        upvote_count=Count('upvotes')
     )
     
     # Apply status filter
@@ -593,6 +593,8 @@ def update_application_status(request, app_id, action):
 
 def like_post(request, post_id):
     reg_no = request.session.get('register_no')
+    if not reg_no:
+        return redirect('login')
     post = Post.objects.get(pk=post_id)
 
     already_liked = PostLike.objects.filter(post=post, register_no=reg_no).exists()
@@ -659,7 +661,6 @@ def edit_member_profile(request, reg_no):
                 f"Password Changed Successfully - SALVO AI Club\n\n"
                 f"Dear {member.name},\n\n"
                 "Your password for the SALVO AI Club portal at SASTRA University has been changed successfully.\n\n"
-                f"Your new password: {password}\n\n"
                 "If you did not request this change, please contact the club coordinators immediately.\n\n"
                 "For your security, we do NOT store your password in plain text. Please keep your password confidential and do not share it with anyone.\n\n"
                 "You can now log in to the portal using your register number and your new password.\n\n"
@@ -707,7 +708,6 @@ def edit_account_profile(request, reg_no):
                 f"Password Changed Successfully - SALVO AI Club\n\n"
                 f"Dear {account.name},\n\n"
                 "Your password for the SALVO AI Club portal at SASTRA University has been changed successfully.\n\n"
-                f"Your new password: {password}\n\n"
                 "If you did not request this change, please contact the club coordinators immediately.\n\n"
                 "For your security, we do NOT store your password in plain text. Please keep your password confidential and do not share it with anyone.\n\n"
                 "You can now log in to the portal using your register number and your new password.\n\n"
@@ -735,6 +735,8 @@ def edit_account_profile(request, reg_no):
     return render(request, 'edit_account_profile.html', {'account': account})
 
 def delete_account(request, reg_no):
+    if request.method != 'POST':
+        return HttpResponse('Method Not Allowed', status=405)
     if request.session.get('register_no') != reg_no:
         return redirect('login')
     account = get_object_or_404(Account, register_no=reg_no)
@@ -742,6 +744,8 @@ def delete_account(request, reg_no):
     return redirect('logout')
 
 def delete_member(request, reg_no):
+    if request.method != 'POST':
+        return HttpResponse('Method Not Allowed', status=405)
     if request.session.get('register_no') != reg_no:
         return redirect('login')
     member = get_object_or_404(Member, register_no=reg_no)

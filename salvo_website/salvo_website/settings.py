@@ -13,13 +13,12 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import dotenv
 import os
-from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMP_DIR = os.path.join(BASE_DIR, 'templates')
-dotenv_path=BASE_DIR /'.env'
-dotenv.load_dotenv()
+dotenv_path = BASE_DIR / '.env'
+dotenv.load_dotenv(dotenv_path)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -30,7 +29,9 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-aiw(0k*fr05@@eq2&8+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 # Allow Hugging Face domains to access your app
-ALLOWED_HOSTS = ['.hf.space', '.huggingface.co', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['.hf.space', '.huggingface.co', 'localhost', '127.0.0.1','172.16.21.153','34.173.247.153','salvoai.cc','.salvoai.cc']
+
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # Crucial: Allow Django to be rendered inside Hugging Face's iframe
 X_FRAME_OPTIONS = 'ALLOW-FROM https://huggingface.co/'
@@ -94,19 +95,15 @@ WSGI_APPLICATION = 'salvo_website.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-import dj_database_url
-
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL'),
-        conn_max_age=600,
-        conn_health_checks=True,
-    ),
-    'tracker': dj_database_url.parse(
-        os.getenv('TRACKER_DATABASE_URL'),
-        conn_max_age=600,
-        conn_health_checks=True,
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    },
+    'tracker': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db-tracker.sqlite3',
+    }
 }
 
 DATABASE_ROUTERS = ['salvo_website.routers.TrackerRouter']
@@ -211,7 +208,10 @@ CSRF_TRUSTED_ORIGINS = [
     "http://localhost:8000",
     "http://127.0.0.1:8000",
     'https://salvoaics-website.hf.space',
-    'https://huggingface.co'
+    'https://huggingface.co',
+    "https://salvoai.cc",
+    "https://*.salvoai.cc"
+
     
 ]
 
@@ -220,6 +220,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'salvo.aics@gmail.com'
+EMAIL_HOST_USER = 'hemanthgangavarapu17@gmail.com'
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')  # Use Gmail App Password, not your raw Gmail password
-DEFAULT_FROM_EMAIL = 'salvo.aics@gmail.com'
+DEFAULT_FROM_EMAIL = 'hemanthgangavarapu17@gmail.com'

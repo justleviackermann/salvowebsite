@@ -1,0 +1,10 @@
+run the following cmds while deploying in vm
+
+# 1. Collect static files (needed once, and after any CSS/JS changes)
+python manage.py collectstatic --noinput
+
+# 2. Run migrations
+python manage.py migrate
+
+# 3. Start gunicorn
+gunicorn --bind 0.0.0.0:8000 salvo_website.wsgi:application --workers 3 --threads 2

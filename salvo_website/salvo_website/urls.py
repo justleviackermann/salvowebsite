@@ -86,6 +86,9 @@ urlpatterns = [
     
 ]
 
+# Always serve media files — needed in production (DEBUG=False) behind Cloudflare Tunnel
+# WhiteNoise handles static files; media must be explicitly served here
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])
