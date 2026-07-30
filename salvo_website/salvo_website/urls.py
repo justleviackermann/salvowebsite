@@ -17,7 +17,8 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
+from django.views.static import serve
 from website.views import home, login, member_dashboard, account_dashboard, register_member, register_account, \
     create_post, verify_post, join_request, view_applications, upvote_application, update_application_status, like_post, \
     account_profile, member_profile, logout, delete_post, edit_member_profile, edit_account_profile, delete_account, delete_member,\
@@ -88,7 +89,9 @@ urlpatterns = [
 
 # Always serve media files — needed in production (DEBUG=False) behind Cloudflare Tunnel
 # WhiteNoise handles static files; media must be explicitly served here
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += [
+    re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+]
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0])

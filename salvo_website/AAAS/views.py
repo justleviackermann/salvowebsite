@@ -124,13 +124,16 @@ def delete_openmodel(request, model_id):
     if request.method != 'POST':
         return HttpResponse('Method Not Allowed', status=405)
 
+    model = get_object_or_404(AAAS, id=model_id)
+
     register_no = request.session.get('register_no')
     member = Member.objects.filter(register_no=register_no).first()
 
-    if not member or member.club_role not in ['Lead', 'Co-ordinator']:
-        return HttpResponse('Forbidden: Only Lead or Co-ordinator can delete models.', status=403)
+    is_lead_or_coord = member and member.club_role in ['Lead', 'Co-ordinator']
+    is_author = (register_no == model.register_no)
 
-    model = get_object_or_404(AAAS, id=model_id)
+    if not (is_lead_or_coord or is_author):
+        return HttpResponse('Forbidden: You do not have permission to delete this model.', status=403)
 
     # Delete associated files from the file system
     if model.model_file:
