@@ -175,12 +175,12 @@ def upload_attendance_file(request):
                         msg=f'duplicate attendance record for {member_name},{meeting_code} exists and thus was skipped'
                         continue
                     a=Attendance(member_name=member_name,first_seen=first_seen,duration=duration,meeting_code=meeting_code)
-                    a.save()
+                    a.save(using='tracker')
             msg+='Attendance saved successfully from file\n'
             qs=Meeting.objects.using('tracker').filter(code=meeting_code)
             if len(qs)==0:
                 m=Meeting(title=meeting_title,date=meeting_date,code=meeting_code,start_time=start_time,end_time=end_time,attendees=attendees)
-                m.save()
+                m.save(using='tracker')
                 msg+='Successfully added meeting\n'
             else:
                 msg+='Error creating meeting : Meeting code already exists !'
@@ -205,7 +205,7 @@ def add_minutes(request, code):
                 minutes=form.cleaned_data['minutes']
                 m=Meeting.objects.using('tracker').filter(code=code).first()
                 m.minutes_of_meeting=minutes
-                m.save()
+                m.save(using='tracker')
                 msg=f"Successfully added Minutes of meet to {code}"
                 return render(request,'ack.html',{'msg':msg})
             else:
