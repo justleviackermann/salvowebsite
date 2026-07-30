@@ -434,12 +434,16 @@ def join_request(request, reg_no):
 
     if existing and existing.status == 'Rejected':
         if request.method == 'POST':
+            # Prevent double-click spam if they already have a Pending request
+            if JoinRequest.objects.filter(account=account, status='Pending').exists():
+                return redirect('account_dashboard')
+            
             form = JoinRequestForm(request.POST, request.FILES)
             if form.is_valid():
                 join_req = form.save(commit=False)
                 join_req.account = account
                 join_req.status = 'Pending'
-                
+
                 try:
                     # send email for confirmation submission of application
                     to_email = f"{account.register_no}@sastra.ac.in"
@@ -471,6 +475,8 @@ def join_request(request, reg_no):
 
     else:
         if request.method == 'POST':
+            if JoinRequest.objects.filter(account=account, status='Pending').exists():
+                return redirect('account_dashboard')
             form = JoinRequestForm(request.POST, request.FILES)
             if form.is_valid():
                 join_req = form.save(commit=False)

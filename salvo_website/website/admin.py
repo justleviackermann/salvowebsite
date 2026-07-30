@@ -1,5 +1,5 @@
 from django.contrib import admin
-from website.models import Post, Account, Member
+from website.models import Post, Account, Member, JoinRequest
 
 
 class AccountAdmin(admin.ModelAdmin):
@@ -15,3 +15,4 @@ class MemberAdmin(admin.ModelAdmin):
 admin.site.register(Post)
 admin.site.register(Account, AccountAdmin)
 admin.site.register(Member, MemberAdmin)
+admin.site.register(JoinRequest)

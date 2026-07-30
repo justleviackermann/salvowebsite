@@ -66,6 +66,8 @@ class JoinRequest(models.Model):
     ]
 
     account = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True, blank=True)
+    applicant_name = models.CharField(max_length=50, blank=True, null=True)
+    applicant_reg_no = models.PositiveIntegerField(blank=True, null=True)
     reason_to_join = models.TextField()
     why_recruit = models.TextField()
     other_clubs = models.TextField()
@@ -73,6 +75,12 @@ class JoinRequest(models.Model):
     submitted_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Pending')
     upvotes = models.ManyToManyField(Member, blank=True)
+
+    def save(self, *args, **kwargs):
+        if self.account:
+            self.applicant_name = self.account.name
+            self.applicant_reg_no = self.account.register_no
+        super().save(*args, **kwargs)
 
 class PostLike(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)

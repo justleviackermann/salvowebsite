@@ -86,7 +86,7 @@ class LRUModelCache:
             return default
 
 # Global dictionary to store loaded models
-loaded_models = LRUModelCache(capacity=2)
+loaded_models = LRUModelCache(capacity=4)
 model_lock = threading.Lock()
 
 # Load default model only once

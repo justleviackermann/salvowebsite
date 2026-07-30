@@ -194,10 +194,24 @@
                     <div class="row align-items-center">
                         <div class="col-md-8">
                             <h4 class="code-font mb-2" style="color: var(--primary-cyan);">
-                                <i class="fas fa-user me-2"></i>{{ app.account.name }}
+                                <i class="fas fa-user me-2"></i>
+                                {% if app.applicant_name %}
+                                    {{ app.applicant_name }}
+                                {% elif app.account %}
+                                    {{ app.account.name }}
+                                {% else %}
+                                    Unknown
+                                {% endif %}
                             </h4>
                             <p class="text-secondary mb-0">
-                                <i class="fas fa-id-card me-2"></i>{{ app.account.register_no }}
+                                <i class="fas fa-id-card me-2"></i>
+                                {% if app.applicant_reg_no %}
+                                    {{ app.applicant_reg_no }}
+                                {% elif app.account %}
+                                    {{ app.account.register_no }}
+                                {% else %}
+                                    Unknown
+                                {% endif %}
                             </p>
                         </div>
                         <div class="col-md-4 text-end">
@@ -279,7 +293,7 @@
                 <div class="mt-3 p-3" style="background: var(--code-bg); border-radius: 10px; border: 1px solid var(--border-glow);">
                     <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;">
                         <div><span style="color: var(--neural-orange);">class</span> <span style="color: var(--data-yellow);">Applicant</span>:</div>
-                        <div style="margin-left: 20px;"><span style="color: var(--primary-cyan);">name</span> = <span style="color: var(--accent-green)">"{{ app.account.name }}"</span></div>
+                        <div style="margin-left: 20px;"><span style="color: var(--primary-cyan);">name</span> = <span style="color: var(--accent-green)">"{% if app.applicant_name %}{{ app.applicant_name }}{% elif app.account %}{{ app.account.name }}{% else %}Unknown{% endif %}"</span></div>
                         <div style="margin-left: 20px;"><span style="color: var(--primary-cyan);">status</span> = <span style="color: var(--accent-green)">"{{ app.status }}"</span></div>
                         <div style="margin-left: 20px;"><span style="color: var(--primary-cyan);">upvotes</span> = {{ app.upvotes.count }}</div>
                         <div style="color: var(--text-secondary);"># Candidate for AI Club membership</div>

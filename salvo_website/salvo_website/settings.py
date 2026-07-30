@@ -17,7 +17,8 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMP_DIR = os.path.join(BASE_DIR, 'templates')
-dotenv_path = BASE_DIR / '.env'
+# The .env file is actually in the root folder, one level above BASE_DIR
+dotenv_path = BASE_DIR.parent / '.env'
 dotenv.load_dotenv(dotenv_path)
 
 # Quick-start development settings - unsuitable for production
@@ -220,6 +221,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'hemanthgangavarapu17@gmail.com'
+EMAIL_HOST_USER = 'salvosastra@gmail.com'
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')  # Use Gmail App Password, not your raw Gmail password
 DEFAULT_FROM_EMAIL = 'hemanthgangavarapu17@gmail.com'
