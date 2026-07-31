@@ -6,7 +6,7 @@ import django.utils.timezone
 class Member(models.Model):
     name=models.CharField(max_length=50,unique=True)
     emailid=models.EmailField()
-    role=models.CharField(max_length=20,choices=[('Member','Member'),('Co-ordinator','Co-ordinator'),('Lead','Lead')])
+    role=models.CharField(max_length=20,choices=[('Member','Member'),('Advisor','Advisor'),('Co-ordinator','Co-ordinator'),('Lead','Lead')])
     regno=models.IntegerField(unique=True)
     joined_on=models.DateField(default=django.utils.timezone.now)
 

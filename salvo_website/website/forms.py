@@ -27,7 +27,7 @@ class AccountRegistrationForm(forms.ModelForm):
 class MemberRegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Enter your password'}))
     club_role = forms.ChoiceField(
-        choices=[('Member','Member'),('Co-ordinator','Co-ordinator'),('Lead','Lead'),('Ex-Lead','Ex-Lead')],
+        choices=[('Member','Member'), ('Advisor','Advisor'), ('Co-ordinator','Co-ordinator'), ('Lead','Lead'), ('Ex-Lead','Ex-Lead')],
         widget=forms.Select(attrs={'class': 'form-control'})
     )
 

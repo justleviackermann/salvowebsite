@@ -129,7 +129,7 @@ def delete_openmodel(request, model_id):
     register_no = request.session.get('register_no')
     member = Member.objects.filter(register_no=register_no).first()
 
-    is_lead_or_coord = member and member.club_role in ['Lead', 'Co-ordinator']
+    is_lead_or_coord = member and member.is_coordinator_or_above
     is_author = (register_no == model.register_no)
 
     if not (is_lead_or_coord or is_author):

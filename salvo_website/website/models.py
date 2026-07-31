@@ -22,7 +22,7 @@ class Account(models.Model):
 class Member(models.Model):
     """
         Class for Permanent Members of SALVO.
-        Roles = {Member, Coordinator, Lead}
+        Roles = {Member, Advisor, Coordinator, Lead}
         TO-DO: Find Formula for Contribution Score
         Privileges: Can Verify Posts, apart from posting.
     """
@@ -37,6 +37,10 @@ class Member(models.Model):
     join_date = models.DateField(default=timezone.now)
     contribution_score = models.FloatField(default=0.0)
     attendance_percentage = models.FloatField(default=0.0)
+
+    @property
+    def is_coordinator_or_above(self):
+        return self.club_role in ['Lead', 'Co-ordinator', 'Advisor']
 
 
 class Post(models.Model):

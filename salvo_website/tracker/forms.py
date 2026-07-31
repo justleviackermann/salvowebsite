@@ -4,7 +4,7 @@ class MemberForm(forms.Form):
     name=forms.CharField(max_length=50)
     emailid=forms.EmailField()
     regno=forms.IntegerField(max_value=999999999,min_value=100000000)
-    role=forms.ChoiceField(choices=[('Member','Member'),('Co-ordinator','Co-ordinator'),('Lead','Lead')])
+    role=forms.ChoiceField(choices=[('Member','Member'),('Advisor','Advisor'),('Co-ordinator','Co-ordinator'),('Lead','Lead')])
 
 class AttendanceFileForm(forms.Form):
     meeting_code=forms.CharField(max_length=25)

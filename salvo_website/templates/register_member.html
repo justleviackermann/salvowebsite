@@ -6,7 +6,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-lg-6 col-md-8">
-            {% if member.club_role == "Lead" or member.club_role == "Co-ordinator" %}
+            {% if member.is_coordinator_or_above %}
             <div class="ai-card animate-on-scroll" style="margin-top: 50px;">
                 <div class="text-center mb-4">
                     <h2 class="code-font" style="color: var(--accent-green); margin-bottom: 10px;">
@@ -112,7 +112,8 @@
                                     style="color: var(--primary-cyan);">user.role</span> <span
                                     style="color: var(--neural-orange);">not in</span> [<span
                                     style="color: var(--accent-green)">"Lead"</span>, <span
-                                    style="color: var(--accent-green)">"Co-ordinator"</span>]:</div>
+                                    style="color: var(--accent-green)">"Co-ordinator"</span>, <span
+                                    style="color: var(--accent-green)">"Advisor"</span>]:</div>
                             <div style="margin-left: 20px;"><span style="color: var(--neural-orange);">raise</span>
                                 <span style="color: var(--data-yellow);">PermissionError</span>(<span
                                     style="color: var(--accent-green)">"Access denied"</span>)

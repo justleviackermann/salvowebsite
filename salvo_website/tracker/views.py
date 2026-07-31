@@ -10,7 +10,6 @@ import json
 import datetime as dt
 from django.db.models.functions import Cast
 
-LEAD_ROLES = ['Lead', 'Co-ordinator']  # Roles with tracker access
 
 def _check_tracker_access(request):
     """Returns None if access is allowed, or a rendered 403 error page if not."""
@@ -20,9 +19,9 @@ def _check_tracker_access(request):
             status=403)
     reg_no = request.session.get('register_no')
     member = WebMember.objects.filter(register_no=reg_no).first()
-    if not member or member.club_role not in LEAD_ROLES:
+    if not member or not member.is_coordinator_or_above:
         return render(request, 'error.html',
-            {'message': f'Access denied: Tracker is restricted to Lead and Co-ordinator roles. Your current role does not have permission.'},
+            {'message': f'Access denied: Tracker is restricted to Lead, Co-ordinator, and Advisor roles. Your current role does not have permission.'},
             status=403)
     return None
 
@@ -48,7 +47,7 @@ def home(request):
         return denied
     # Fetch all members and their attendance details
 
-    members = Member.objects.using('tracker').filter(Q(role='Member') | Q(role='Co-ordinator'))
+    members = Member.objects.using('tracker').filter(Q(role='Member') | Q(role='Co-ordinator') | Q(role='Advisor'))
     attendance_data = Attendance.objects.using('tracker').all()
     member_wise_attendance_duration={member.name:0 for member in members}
     for member in members:

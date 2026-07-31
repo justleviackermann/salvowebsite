@@ -399,7 +399,7 @@ def delete_post(request, post_id):
 
     #check if memeber is lead or coordinator
     member = Member.objects.get(register_no=request.session.get('register_no'))
-    if member.club_role not in ['Lead', 'Co-ordinator']:
+    if not member.is_coordinator_or_above:
         print("Unauthorized delete attempt by:", member.register_no)
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             return JsonResponse({'success': False, 'error': 'You do not have permission to delete posts.'}, status=403)
@@ -549,7 +549,7 @@ def update_application_status(request, app_id, action):
     if 'register_no' not in request.session or request.session.get('user_type') != 'member':
         return redirect('login')
     member = get_object_or_404(Member, register_no=request.session['register_no'])
-    if member.club_role not in ['Lead', 'Co-ordinator']:
+    if not member.is_coordinator_or_above:
         return HttpResponse("Unauthorized", status=401)
     try:
         app = get_object_or_404(JoinRequest, id=app_id)
