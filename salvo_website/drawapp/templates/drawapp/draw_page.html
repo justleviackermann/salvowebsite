@@ -101,24 +101,47 @@
             //let isPredicting = false; // Flag to prevent multiple predictions at once
             let lastX = 0, lastY = 0;
 
+            function getCoordinates(e) {
+                if (e.touches && e.touches.length > 0) {
+                    return { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY };
+                }
+                return { clientX: e.clientX, clientY: e.clientY };
+            }
+
             canvas.addEventListener("mousedown", (e) => {
                 painting = true;
                 const rect = canvas.getBoundingClientRect();
-                lastX = e.clientX - rect.left;
-                lastY = e.clientY - rect.top;
+                const coords = getCoordinates(e);
+                lastX = coords.clientX - rect.left;
+                lastY = coords.clientY - rect.top;
             });
+            canvas.addEventListener("touchstart", (e) => {
+                e.preventDefault(); // Prevent scrolling on touch
+                painting = true;
+                const rect = canvas.getBoundingClientRect();
+                const coords = getCoordinates(e);
+                lastX = coords.clientX - rect.left;
+                lastY = coords.clientY - rect.top;
+            }, { passive: false });
 
             canvas.addEventListener("mouseup", () => painting = false);
             canvas.addEventListener("mouseleave", () => painting = false);
+            canvas.addEventListener("touchend", () => painting = false);
+            canvas.addEventListener("touchcancel", () => painting = false);
 
             canvas.addEventListener("mousemove", draw);
+            canvas.addEventListener("touchmove", (e) => {
+                e.preventDefault(); // Prevent scrolling on touch
+                draw(e);
+            }, { passive: false });
 
             function draw(e) {
                 if (!painting) return;
 
                 const rect = canvas.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
+                const coords = getCoordinates(e);
+                const x = coords.clientX - rect.left;
+                const y = coords.clientY - rect.top;
 
                 ctx.strokeStyle = "black";
                 ctx.lineWidth = 10;

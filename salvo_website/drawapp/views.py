@@ -199,10 +199,10 @@ def image_to_base64(img):
 
 def model_management(request):
     """Model management page"""
-    # if 'username' not in request.session:
-    #     return redirect('username')
+    from website.models import Member
+    member = Member.objects.filter(register_no=request.session.get('register_no')).first()
     
-    return render(request, 'drawapp/model_management.html')
+    return render(request, 'drawapp/model_management.html', {'member': member})
 
 @csrf_exempt
 def upload_model(request):

@@ -28,7 +28,7 @@ dotenv.load_dotenv(dotenv_path)
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-aiw(0k*fr05@@eq2&8+)+l&e_h^=l*u1)z%e)6^!$#r#_-82v*')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 # Allow Hugging Face domains to access your app
 ALLOWED_HOSTS = ['.hf.space', '.huggingface.co', 'localhost', '127.0.0.1','172.16.21.153','34.173.247.153','salvoai.cc','.salvoai.cc']
 
