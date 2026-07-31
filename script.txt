@@ -8,3 +8,13 @@ python manage.py migrate
 
 # 3. Start gunicorn
 gunicorn --bind 0.0.0.0:8000 salvo_website.wsgi:application --workers 3 --threads 2
+#do the following for logging
+gunicorn --bind 0.0.0.0:8000 salvo_website.wsgi:application \
+    --workers 3 \
+    --threads 2 \
+    --access-logfile access.log \
+    --error-logfile error.log \
+    --capture-output
+
+dont forget to alter the drawapp page
+change debut=false
