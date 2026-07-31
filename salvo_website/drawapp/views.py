@@ -715,7 +715,8 @@ def predict(request):
         results = []
         early_return_triggered = False
 
-        with ThreadPoolExecutor() as executor:
+        executor = ThreadPoolExecutor(max_workers=min(3, len(shuffled_model_list)))
+        try:
             future_to_model = {
                 executor.submit(process_model, model, idx): idx
                 for idx, model in shuffled_model_list
@@ -739,6 +740,12 @@ def predict(request):
 
                 except Exception as ex:
                     print(f"❌ Error getting result from model {future_to_model[future]}: {ex}")
+        finally:
+            try:
+                # Python 3.9+ supports cancel_futures
+                executor.shutdown(wait=False, cancel_futures=True)
+            except TypeError:
+                executor.shutdown(wait=False)
 
         # Determine if any model guessed correctly
         any_correct = False
