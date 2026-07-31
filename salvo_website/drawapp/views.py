@@ -710,42 +710,27 @@ def predict(request):
         
         num_models = len(shuffled_model_list)
         early_return_chance = get_early_return_chance(num_models)
-        from concurrent.futures import ThreadPoolExecutor, as_completed
-
         results = []
         early_return_triggered = False
 
-        executor = ThreadPoolExecutor(max_workers=min(3, len(shuffled_model_list)))
-        try:
-            future_to_model = {
-                executor.submit(process_model, model, idx): idx
-                for idx, model in shuffled_model_list
-            }
-
-            for future in as_completed(future_to_model):
-                try:
-                    result = future.result()
-                    results.append(result)
-
-                    # 🎯 25% chance to return early
-                    if not early_return_triggered and random.random() < (early_return_chance / 100.0):
-                        early_return_triggered = True
-                        print(f"\n\n⚠️ Returning early with model {result[2]}\n\n")
-                        return JsonResponse({
-                            'top_predictions': [result],
-                            'visual_inputs': result[-1],
-                            'model_order': [result[2]],
-                            'delay_time': time.time() - st_time,
-                        })
-
-                except Exception as ex:
-                    print(f"❌ Error getting result from model {future_to_model[future]}: {ex}")
-        finally:
+        for idx, model in shuffled_model_list:
             try:
-                # Python 3.9+ supports cancel_futures
-                executor.shutdown(wait=False, cancel_futures=True)
-            except TypeError:
-                executor.shutdown(wait=False)
+                result = process_model(model, idx)
+                results.append(result)
+
+                # 🎯 25% chance to return early
+                if not early_return_triggered and random.random() < (early_return_chance / 100.0):
+                    early_return_triggered = True
+                    print(f"\n\n⚠️ Returning early with model {result[2]}\n\n")
+                    return JsonResponse({
+                        'top_predictions': [result],
+                        'visual_inputs': result[-1],
+                        'model_order': [result[2]],
+                        'delay_time': time.time() - st_time,
+                    })
+
+            except Exception as ex:
+                print(f"❌ Error getting result from model {idx}: {ex}")
 
         # Determine if any model guessed correctly
         any_correct = False
