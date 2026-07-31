@@ -1,0 +1,4 @@
+INFO 2026-07-31 17:46:38,453 autoreload Watching for file changes with StatReloader
+INFO 2026-07-31 17:46:58,106 basehttp "GET / HTTP/1.1" 200 59975
+INFO 2026-07-31 17:46:58,161 basehttp "GET /static/tracker/salvo_logo.jpg HTTP/1.1" 304 0
+INFO 2026-07-31 17:47:00,355 basehttp "GET /view_members/ HTTP/1.1" 200 73309

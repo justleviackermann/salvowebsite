@@ -20,6 +20,13 @@ import threading
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 import shutil
+import logging
+logger = logging.getLogger(__name__)
+
+def draw_draw_print(*args):
+    msg = " ".join(str(a) for a in args)
+    logger.info(msg)
+
 # Create your views here.
 
 # === Global Constants ===
@@ -57,7 +64,7 @@ class LRUModelCache:
             elif len(self.cache) >= self.capacity:
                 old_key, old_value = self.cache.popitem(last=False)
                 tf.keras.backend.clear_session()
-                print(f"Unloaded model {old_key} from memory to free space.")
+                draw_print(f"Unloaded model {old_key} from memory to free space.")
             self.cache[key] = value
 
     def __contains__(self, key):
@@ -97,7 +104,7 @@ try:
         'filename': DEFAULT_MODEL_FILENAME
     }
 except Exception as e:
-    print(f"Error loading default model: {e}")
+    draw_print(f"Error loading default model: {e}")
     default_model = None
 
 BASE_DIR = os.path.dirname(__file__)
@@ -111,7 +118,7 @@ def load_model_safe(model_path):
     try:
         return load_model(model_path)
     except Exception as e:
-        print(f"Error loading model {model_path}: {e}")
+        draw_print(f"Error loading model {model_path}: {e}")
         return None
 
 def get_available_models():
@@ -145,7 +152,7 @@ def get_available_models():
                         'is_default': False
                     })
                 except Exception as e:
-                    print(f"Error getting stats for {filename}: {e}")
+                    draw_print(f"Error getting stats for {filename}: {e}")
     
     return models
 
@@ -180,7 +187,7 @@ def load_all_models():
                                 'name': filename.replace('.keras', '').replace('_', ' ').title(),
                                 'filename': filename
                             }
-                            print(f"Loaded model: {filename}")
+                            draw_print(f"Loaded model: {filename}")
 
 def image_to_base64(img):
     """Converts a single-channel image array to base64 PNG."""
@@ -206,7 +213,7 @@ def model_management(request):
 @csrf_exempt
 def upload_model(request):
     """Handle model file upload"""
-    print("📥 Received model upload request.")
+    draw_print("📥 Received model upload request.")
     
     if request.method != 'POST':
         return JsonResponse({'success': False, 'error': 'POST request required'})
@@ -215,13 +222,13 @@ def upload_model(request):
         return JsonResponse({'success': False, 'error': 'Unauthorized'}, status=401)
     
     if 'model_file' not in request.FILES:
-        print("❌ No file received in upload.")
+        draw_print("❌ No file received in upload.")
         return JsonResponse({'success': False, 'error': 'No file uploaded'})
     
     uploaded_file = request.FILES['model_file']
     
     if not uploaded_file.name.endswith('.keras'):
-        print(f"❌ Invalid file type: {uploaded_file.name}")
+        draw_print(f"❌ Invalid file type: {uploaded_file.name}")
         return JsonResponse({'success': False, 'error': 'File must be a .keras file'})
     
     try:
@@ -232,18 +239,18 @@ def upload_model(request):
         filepath = os.path.join(MODELS_DIR, filename)
         
         if os.path.exists(filepath):
-            print(f"⚠️ Model already exists: {filename}")
+            draw_print(f"⚠️ Model already exists: {filename}")
             return JsonResponse({'success': False, 'error': 'Model with this name already exists'})
         
-        print(f"📂 Saving uploaded model to: {filepath}")
+        draw_print(f"📂 Saving uploaded model to: {filepath}")
         with open(filepath, 'wb+') as destination:
             for chunk in uploaded_file.chunks():
                 destination.write(chunk)
         
-        print(f"🔍 Attempting to load uploaded model for validation: {filepath}")
+        draw_print(f"🔍 Attempting to load uploaded model for validation: {filepath}")
         test_model = load_model_safe(filepath)
         if test_model is None:
-            print("❌ Uploaded file is not a valid Keras model. Deleting.")
+            draw_print("❌ Uploaded file is not a valid Keras model. Deleting.")
             os.remove(filepath)
             return JsonResponse({'success': False, 'error': 'Invalid .keras file or incompatible model'})
         
@@ -255,11 +262,11 @@ def upload_model(request):
                 'filename': filename
             }
 
-        print(f"✅ Model '{filename}' uploaded and loaded successfully.")
+        draw_print(f"✅ Model '{filename}' uploaded and loaded successfully.")
         return JsonResponse({'success': True})
         
     except Exception as e:
-        print(f"❌ Exception during model upload: {e}")
+        draw_print(f"❌ Exception during model upload: {e}")
         return JsonResponse({'success': False, 'error': f'Upload failed: {str(e)}'})
 
 
@@ -268,7 +275,7 @@ def get_models(request):
     """Get list of available models"""
     try:
         models = get_available_models()
-        print("Current models in directory:", models)
+        draw_print("Current models in directory:", models)
         return JsonResponse({'models': models})
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
@@ -408,8 +415,8 @@ def filter_predictions_by_hints(candidates, target_word, hints):
     
     # Normalize target word
     target_normalized = normalize_word(target_word)
-    print(f"\n\nTarget word: '{target_word}' -> normalized: '{target_normalized}'")
-    print(f"Hints received: {hints}")
+    draw_print(f"\n\nTarget word: '{target_word}' -> normalized: '{target_normalized}'")
+    draw_print(f"Hints received: {hints}")
     
     # Step 1: Filter by length first
     length_filtered = []
@@ -418,7 +425,7 @@ def filter_predictions_by_hints(candidates, target_word, hints):
         if len(candidate_normalized) == len(target_normalized):
             length_filtered.append(candidate)
     
-    print(f"After length filter ({len(target_normalized)} chars): {[normalize_word(w) for w in length_filtered]}")
+    draw_print(f"After length filter ({len(target_normalized)} chars): {[normalize_word(w) for w in length_filtered]}")
     
     # Step 2: Apply hint filters
     hint_filtered = length_filtered.copy()
@@ -427,11 +434,11 @@ def filter_predictions_by_hints(candidates, target_word, hints):
         hint_index = hint.get('index')
         hint_letter = hint.get('letter', '').lower()
         
-        print(f"Applying hint: index={hint_index}, letter='{hint_letter}'")
+        draw_print(f"Applying hint: index={hint_index}, letter='{hint_letter}'")
         
         # Validate hint index
         if hint_index is None or hint_index < 0 or hint_index >= len(target_normalized):
-            print(f"⚠️ Invalid hint index {hint_index} for word length {len(target_normalized)}")
+            draw_print(f"⚠️ Invalid hint index {hint_index} for word length {len(target_normalized)}")
             continue
         
         # Filter candidates that match this hint
@@ -445,9 +452,9 @@ def filter_predictions_by_hints(candidates, target_word, hints):
                 temp_filtered.append(candidate)
         
         hint_filtered = temp_filtered
-        print(f"After applying hint {hint}: {[normalize_word(w) for w in hint_filtered]}")
+        draw_print(f"After applying hint {hint}: {[normalize_word(w) for w in hint_filtered]}")
     
-    print(f"Final filtered results: {[normalize_word(w) for w in hint_filtered]}\n\n")
+    draw_print(f"Final filtered results: {[normalize_word(w) for w in hint_filtered]}\n\n")
     return hint_filtered
 
 
@@ -467,7 +474,7 @@ def is_blank(img_array, threshold=0.98):
 
     # Check ratio of near-white pixels (>0.98 for normalized)
     white_pixel_ratio = np.sum(img_array > threshold) / img_array.size
-    #print(f"🔍 White pixel ratio: {white_pixel_ratio:.2f}")
+    #draw_print(f"🔍 White pixel ratio: {white_pixel_ratio:.2f}")
 
     return white_pixel_ratio > 0.98
 
@@ -497,10 +504,10 @@ def predict(request):
 
         selected_word_normalized = selected_word.lower().replace(' ', '_')
         
-        print(f"\n\nProcessing word: '{selected_word}' -> normalized: '{selected_word_normalized}'")
+        draw_print(f"\n\nProcessing word: '{selected_word}' -> normalized: '{selected_word_normalized}'")
         def process_model(model,model_idx):
              
-            print("\n 🔍 Processing model:", model_idx, "\n\n")
+            draw_print("\n 🔍 Processing model:", model_idx, "\n\n")
             
             # Get processed images
             processed_images = extract_and_resize_parts(image_data)
@@ -540,13 +547,13 @@ def predict(request):
 
             # Apply filtering with randomness
             if random.random() < 0.15:
-                print("model",model_idx,": ⚠️ Skipping all filters due to randomness")
+                draw_print("model",model_idx,": ⚠️ Skipping all filters due to randomness")
                 filtered = interleaved
             elif random.random() < 0.20:
-                print("model",model_idx,": ⚠️ Using only length-based filtering due to randomness")
+                draw_print("model",model_idx,": ⚠️ Using only length-based filtering due to randomness")
                 filtered = filter_by_length_only(interleaved, selected_word_normalized)
             else:
-                print("model",model_idx,": Applying hints and length filtering")
+                draw_print("model",model_idx,": Applying hints and length filtering")
                 filtered = filter_predictions_by_hints(interleaved, selected_word_normalized, hints)
 
             # Convert to result format and calculate probabilities
@@ -572,14 +579,14 @@ def predict(request):
             ]
             random.shuffle(result)
 
-            print("model",model_idx,f": Filtered predictions after removing failed: {result}")
+            draw_print("model",model_idx,f": Filtered predictions after removing failed: {result}")
 
             # Fallback with top 20 if no results
             if not result:
                 if random.random() <0.5:
                     result=[(i,0) for i in interleaved[:N] if i[0].lower().replace(' ','_') not in previous_failed]
                 else:
-                    print("model",model_idx,": No results, trying fallback with top 20...")
+                    draw_print("model",model_idx,": No results, trying fallback with top 20...")
                     N = 20
                     top_pred_lists = [np.argsort(p)[::-1][:N] for p in preds]
                     
@@ -636,7 +643,7 @@ def predict(request):
         processed_images = extract_and_resize_parts(image_data)
         
         # --- DEBUG: Show image stats ---
-        print("\n\n🖼️ Checking for blank canvas...\n\n")
+        draw_print("\n\n🖼️ Checking for blank canvas...\n\n")
         
 
         if all(is_blank(img) for img in processed_images):
@@ -721,7 +728,7 @@ def predict(request):
                 # 🎯 25% chance to return early
                 if not early_return_triggered and random.random() < (early_return_chance / 100.0):
                     early_return_triggered = True
-                    print(f"\n\n⚠️ Returning early with model {result[2]}\n\n")
+                    draw_print(f"\n\n⚠️ Returning early with model {result[2]}\n\n")
                     return JsonResponse({
                         'top_predictions': [result],
                         'visual_inputs': result[-1],
@@ -730,7 +737,7 @@ def predict(request):
                     })
 
             except Exception as ex:
-                print(f"❌ Error getting result from model {idx}: {ex}")
+                draw_print(f"❌ Error getting result from model {idx}: {ex}")
 
         # Determine if any model guessed correctly
         any_correct = False
@@ -740,17 +747,17 @@ def predict(request):
                 top_guess = preds[0][0].lower().replace(' ', '_')
                 if top_guess == selected_word_normalized:
                     any_correct = True
-                    print(f"\n\n✅ Model {r[2]} guessed correctly: {top_guess}\n\n")
+                    draw_print(f"\n\n✅ Model {r[2]} guessed correctly: {top_guess}\n\n")
                     break
 
         if not any_correct:
-            print(f"\n\n❌ No model guessed '{selected_word_normalized}' correctly.\n\n")
+            draw_print(f"\n\n❌ No model guessed '{selected_word_normalized}' correctly.\n\n")
             guessed = results[0][0][0][0].lower().replace(' ', '_') if results[0][0] else "none"
             previous_failed = request.session.get('previous_failed', [])
             if guessed != selected_word_normalized and guessed not in previous_failed:
                 previous_failed.append(guessed)
                 request.session['previous_failed'] = previous_failed
-                print(f"\n\n📝 Added to failed list: {guessed}\n\n")
+                draw_print(f"\n\n📝 Added to failed list: {guessed}\n\n")
 
 
         def top_label_confidence(res):
@@ -769,16 +776,16 @@ def predict(request):
         if label_consensus:
             # If all top labels are same, sort by confidence (descending)
             results.sort(key=lambda r: top_label_confidence(r)[1], reverse=True)
-            print(f"\n\n📊 Same top label '{top_labels[0]}' across models — sorted by confidence")
+            draw_print(f"\n\n📊 Same top label '{top_labels[0]}' across models — sorted by confidence")
         else:
             # Default: sort by inference time (ascending)
             results.sort(key=lambda x: x[1])
-            print("\n\n⚡ Different labels — sorted by inference time")
+            draw_print("\n\n⚡ Different labels — sorted by inference time")
 
         model_order = [r[2] for r in results]
 
-        print(f"Model order by inference time: {model_order}")
-        print("Final results from all models:", [results[i][0] for i in range(len(results))])
+        draw_print(f"Model order by inference time: {model_order}")
+        draw_print("Final results from all models:", [results[i][0] for i in range(len(results))])
         ed_time = time.time() - st_time
         return JsonResponse({
             'top_predictions': results,
@@ -788,6 +795,6 @@ def predict(request):
         })
 
     except Exception as e:
-        print("Prediction error:", e)
+        draw_print("Prediction error:", e)
         return JsonResponse({'error': str(e)}, status=500)
 
