@@ -2,3 +2,92 @@ INFO 2026-07-31 17:46:38,453 autoreload Watching for file changes with StatReloa
 INFO 2026-07-31 17:46:58,106 basehttp "GET / HTTP/1.1" 200 59975
 INFO 2026-07-31 17:46:58,161 basehttp "GET /static/tracker/salvo_logo.jpg HTTP/1.1" 304 0
 INFO 2026-07-31 17:47:00,355 basehttp "GET /view_members/ HTTP/1.1" 200 73309
+INFO 2026-07-31 17:53:06,242 autoreload Watching for file changes with StatReloader
+INFO 2026-07-31 17:53:14,506 basehttp "GET / HTTP/1.1" 200 59975
+INFO 2026-07-31 17:53:14,530 basehttp "GET /static/tracker/salvo_logo.jpg HTTP/1.1" 304 0
+INFO 2026-07-31 17:53:16,159 basehttp "GET /play/draw/ HTTP/1.1" 200 39567
+INFO 2026-07-31 17:53:16,188 views Current models in directory: [{'filename': 'StackPainter27.keras', 'name': 'Default Model', 'uploaded_at': '2026-07-31T17:53:16.188371', 'size': None, 'is_default': True}, {'filename': 'SentientPlayer27.keras', 'name': 'Sentientplayer27', 'uploaded_at': '2026-06-14T15:47:34.059215', 'size': 34903311, 'is_default': False}]
+INFO 2026-07-31 17:53:16,189 basehttp "GET /get-models/ HTTP/1.1" 200 306
+INFO 2026-07-31 17:53:16,195 basehttp "GET /static/tracker/favicon.ico HTTP/1.1" 304 0
+INFO 2026-07-31 17:53:17,636 basehttp "GET /draw/ HTTP/1.1" 200 55760
+INFO 2026-07-31 17:53:22,790 basehttp "GET /draw/ HTTP/1.1" 200 55742
+INFO 2026-07-31 17:53:24,846 views Loaded model: SentientPlayer27.keras
+INFO 2026-07-31 17:53:24,846 views 
+
+Processing word: 'car' -> normalized: 'car'
+INFO 2026-07-31 17:53:24,907 views 
+
+🖼️ Checking for blank canvas...
+
+
+INFO 2026-07-31 17:53:24,909 basehttp "POST /predict/ HTTP/1.1" 200 200
+INFO 2026-07-31 17:53:28,418 views 
+
+Processing word: 'car' -> normalized: 'car'
+INFO 2026-07-31 17:53:28,421 views 
+
+🖼️ Checking for blank canvas...
+
+
+INFO 2026-07-31 17:53:28,422 views 
+ 🔍 Processing model: 0 
+
+
+INFO 2026-07-31 17:53:29,683 views model 0 : Applying hints and length filtering
+INFO 2026-07-31 17:53:29,683 views 
+
+Target word: 'car' -> normalized: 'car'
+INFO 2026-07-31 17:53:29,684 views Hints received: []
+INFO 2026-07-31 17:53:29,684 views After length filter (3 chars): ['eye', 'bus', 'fan']
+INFO 2026-07-31 17:53:29,684 views Final filtered results: ['eye', 'bus', 'fan']
+
+
+INFO 2026-07-31 17:53:29,684 views model 0 : Filtered predictions after removing failed: [('Fan', 0.014224541373550892), ('Bus', 0.027955463156104088), ('Eye', 0.0370819978415966)]
+INFO 2026-07-31 17:53:29,684 views 
+ 🔍 Processing model: 1 
+
+
+INFO 2026-07-31 17:53:29,922 views 
+
+Processing word: 'car' -> normalized: 'car'
+INFO 2026-07-31 17:53:29,924 views 
+
+🖼️ Checking for blank canvas...
+
+
+INFO 2026-07-31 17:53:29,924 views 
+ 🔍 Processing model: 0 
+
+
+INFO 2026-07-31 17:53:30,600 views model 0 : Applying hints and length filtering
+INFO 2026-07-31 17:53:30,600 views 
+
+Target word: 'car' -> normalized: 'car'
+INFO 2026-07-31 17:53:30,600 views Hints received: []
+INFO 2026-07-31 17:53:30,600 views After length filter (3 chars): ['eye', 'bus', 'fan']
+INFO 2026-07-31 17:53:30,600 views Final filtered results: ['eye', 'bus', 'fan']
+
+
+INFO 2026-07-31 17:53:30,600 views model 0 : Filtered predictions after removing failed: [('Eye', 0.0370819978415966), ('Fan', 0.014224541373550892), ('Bus', 0.027955463156104088)]
+INFO 2026-07-31 17:53:30,600 views 
+
+⚠️ Returning early with model 0
+
+
+INFO 2026-07-31 17:53:30,601 basehttp "POST /predict/ HTTP/1.1" 200 26213
+INFO 2026-07-31 17:53:30,773 views model 1 : Applying hints and length filtering
+INFO 2026-07-31 17:53:30,773 views 
+
+Target word: 'car' -> normalized: 'car'
+INFO 2026-07-31 17:53:30,774 views Hints received: []
+INFO 2026-07-31 17:53:30,774 views After length filter (3 chars): ['toe']
+INFO 2026-07-31 17:53:30,774 views Final filtered results: ['toe']
+
+
+INFO 2026-07-31 17:53:30,774 views model 1 : Filtered predictions after removing failed: [('Toe', 0.018779192119836807)]
+INFO 2026-07-31 17:53:30,774 views 
+
+⚠️ Returning early with model 1
+
+
+INFO 2026-07-31 17:53:30,775 basehttp "POST /predict/ HTTP/1.1" 200 21998

@@ -23,7 +23,7 @@ import shutil
 import logging
 logger = logging.getLogger(__name__)
 
-def draw_draw_print(*args):
+def draw_print(*args):
     msg = " ".join(str(a) for a in args)
     logger.info(msg)
 
