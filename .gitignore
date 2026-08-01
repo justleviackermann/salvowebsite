@@ -3,5 +3,5 @@ __pycache__/
 .env
 backup_apps.json
 salvo_website/staticfiles/
-salvo_website/db.sqlite3
-salvo_website/db-tracker.sqlite3
+*.db
+*.logs
