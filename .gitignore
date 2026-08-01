@@ -5,3 +5,4 @@ backup_apps.json
 salvo_website/staticfiles/
 *.db
 *.log
+*.sqlite3
