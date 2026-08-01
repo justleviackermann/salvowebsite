@@ -31,6 +31,7 @@
         margin: 0 auto;
         box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
         transition: all 0.3s ease;
+        touch-action: none; /* prevents scroll interference on mobile */
     }
 
     .ai-canvas:hover {
@@ -244,6 +245,14 @@
         .game-title {
             font-size: 2rem;
         }
+
+        .drawing-panel {
+            padding: 1rem;
+        }
+
+        .chatbox {
+            height: 300px;
+        }
     }
 </style>
 {% endblock %}
@@ -383,7 +392,6 @@
     </div>
 </div>
 
-<!-- ORIGINAL WORKING JAVASCRIPT - PRESERVED EXACTLY -->
 <script>
 const randomWords = [
 "apple", "banana", "pencil", "laptop", "table", "carpet", "window", "chair", "cloud", "river",
@@ -401,63 +409,66 @@ let currentWord = null;
 let hints = [];
 let startTime = null;
 let gameTimer = null;
-let timerInterval = null; // ADDED: Separate timer for UI updates
-let gameEnded = false;  // Add this near the top with other global variables
-let failedGuesses = []; // Store failed guesses to avoid repeating them
-//let isPredicting = false; // Flag to prevent multiple predictions at once
+let timerInterval = null;
+let gameEnded = false;
+let failedGuesses = [];
 let lastX = 0, lastY = 0;
 
-function getCoordinates(e) {
+// ─── Helper: get coordinates for both mouse and touch ───────────────────────
+function getCoords(e) {
+    const rect = canvas.getBoundingClientRect();
+    // Scale from CSS size to actual canvas resolution
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
     if (e.touches && e.touches.length > 0) {
-        return { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY };
+        return {
+            x: (e.touches[0].clientX - rect.left) * scaleX,
+            y: (e.touches[0].clientY - rect.top)  * scaleY,
+        };
     }
-    return { clientX: e.clientX, clientY: e.clientY };
+    return {
+        x: (e.clientX - rect.left) * scaleX,
+        y: (e.clientY - rect.top)  * scaleY,
+    };
 }
 
+// ─── Mouse events ────────────────────────────────────────────────────────────
 canvas.addEventListener("mousedown", (e) => {
     painting = true;
-    const rect = canvas.getBoundingClientRect();
-    const coords = getCoordinates(e);
-    lastX = coords.clientX - rect.left;
-    lastY = coords.clientY - rect.top;
+    const { x, y } = getCoords(e);
+    lastX = x; lastY = y;
 });
+canvas.addEventListener("mouseup",    () => painting = false);
+canvas.addEventListener("mouseleave", () => painting = false);
+canvas.addEventListener("mousemove",  draw);
+
+// ─── Touch events (mobile support) ──────────────────────────────────────────
 canvas.addEventListener("touchstart", (e) => {
-    e.preventDefault(); // Prevent scrolling on touch
+    e.preventDefault(); // stop page scroll while drawing
     painting = true;
-    const rect = canvas.getBoundingClientRect();
-    const coords = getCoordinates(e);
-    lastX = coords.clientX - rect.left;
-    lastY = coords.clientY - rect.top;
+    const { x, y } = getCoords(e);
+    lastX = x; lastY = y;
 }, { passive: false });
 
-canvas.addEventListener("mouseup", () => painting = false);
-canvas.addEventListener("mouseleave", () => painting = false);
-canvas.addEventListener("touchend", () => painting = false);
-canvas.addEventListener("touchcancel", () => painting = false);
-
-canvas.addEventListener("mousemove", draw);
 canvas.addEventListener("touchmove", (e) => {
-    e.preventDefault(); // Prevent scrolling on touch
+    e.preventDefault();
     draw(e);
 }, { passive: false });
 
+canvas.addEventListener("touchend",   () => painting = false);
+canvas.addEventListener("touchcancel",() => painting = false);
+
+// ─── Draw function (shared by mouse + touch) ─────────────────────────────────
 function draw(e) {
     if (!painting) return;
-
-    const rect = canvas.getBoundingClientRect();
-    const coords = getCoordinates(e);
-    const x = coords.clientX - rect.left;
-    const y = coords.clientY - rect.top;
-
+    const { x, y } = getCoords(e);
     ctx.strokeStyle = "black";
     ctx.lineWidth = 10;
     ctx.lineCap = "round";
-
     ctx.beginPath();
     ctx.moveTo(lastX, lastY);
     ctx.lineTo(x, y);
     ctx.stroke();
-
     lastX = x;
     lastY = y;
 }
@@ -474,23 +485,13 @@ function newChallenge() {
 function selectWord(word) {
     currentWord = word.toLowerCase();
     document.getElementById("selected-word").innerHTML = "You selected: <b>" + word + "</b>";
-    
-    // Clear any existing game state
     if (gameTimer) clearInterval(gameTimer);
     if (timerInterval) clearInterval(timerInterval);
     gameEnded = false;
-    
-    // Hide word buttons
     document.getElementById("word-options").style.display = "none";
-    
-    // Reset UI elements
     document.getElementById("hint-status").innerText = "Hints Revealed to model: Waiting...";
     document.getElementById("final-status").innerText = "";
-    
-    // Clear chat
     document.getElementById("chatbox").innerHTML = '<div class="chat-msg">Model will predict here...</div>';
-    
-    // Start new prediction cycle
     startPredictionCycle();
 }
 
@@ -500,44 +501,35 @@ function getCanvasImage() {
 
 function updateChat(predictionData) {
     if (gameEnded) return;
-        // predictionData structure: [result, inference_time, model_idx, visual_inputs]
-    const predictions = predictionData[0]; // Get the actual predictions
-
-    
-    
-    const modelIndex = predictionData[2]; // Get the model index
-    
+    const predictions = predictionData[0];
+    const modelIndex  = predictionData[2];
     if (!predictions || predictions.length === 0) return;
-    
-    const guess = predictions[0][0]; // [0][0] gets the first prediction's word
-    //const confidence = Math.floor(predictions[0][1] * 100); // Use actual confidence
 
-    let score = predictions[0][1];  // raw softmax value
+    const guess = predictions[0][0];
+    let score = predictions[0][1];
 
     let tier;
-    if (score >= 0.4) tier = 90;
-    else if (score >= 0.25) tier = 80;
-    else if (score >= 0.23) tier = 70;
-    else if (score >= 0.18) tier = 60;
-    else if (score >= 0.16) tier = 50;
-    else if (score >= 0.15) tier = 40;
-    else if (score >= 0.12) tier = 30;
-    else if (score >= 0.1) tier = 29;
-    else if (score >= 0.07) tier = 28;
-    else if (score >= 0.05) tier = 27;
-    else if (score >= 0.03) tier = 26;
-    else if (score >= 0.02) tier = 25;
-    else if (score >= 0.01) tier = 20;
+    if      (score >= 0.4)   tier = 90;
+    else if (score >= 0.25)  tier = 80;
+    else if (score >= 0.23)  tier = 70;
+    else if (score >= 0.18)  tier = 60;
+    else if (score >= 0.16)  tier = 50;
+    else if (score >= 0.15)  tier = 40;
+    else if (score >= 0.12)  tier = 30;
+    else if (score >= 0.1)   tier = 29;
+    else if (score >= 0.07)  tier = 28;
+    else if (score >= 0.05)  tier = 27;
+    else if (score >= 0.03)  tier = 26;
+    else if (score >= 0.02)  tier = 25;
+    else if (score >= 0.01)  tier = 20;
     else if (score >= 0.005) tier = 10;
     else if (score >= 0.001) tier = 5;
-    else tier = 1; // Default to 1% confidence for very low scores
-    const confidence = tier; // Use the tier as the confidence percentage
-    // Skip if this guess is already in failedGuesses
-    const normalized = guess.toLowerCase().replace(/[^a-z]/g, '');
+    else                     tier = 1;
+    const confidence = tier;
 
-    if (failedGuesses.includes(normalized)) {
-        return; // Skip repeated guesses
-    }
+    const normalized = guess.toLowerCase().replace(/[^a-z]/g, '');
+    if (failedGuesses.includes(normalized)) return;
+
     const phrases = [
         `I am ${confidence}% sure it is <WORD>!`,
         `I believe there's a ${confidence}% chance it's <WORD>.`,
@@ -620,36 +612,28 @@ function updateChat(predictionData) {
     ];
 
     const template = phrases[Math.floor(Math.random() * phrases.length)];
-
-    // Pick a random color for this word
     const colors = ["#e6194b", "#3cb44b", "#ffe119", "#4363d8", "#f58231", "#911eb4", "#46f0f0", "#f032e6"];
     const chosenColor = colors[Math.floor(Math.random() * colors.length)];
-
-    // Wrap the entire predicted word in a single-colored span
     const coloredGuess = `<span style="color:${chosenColor}; font-weight:bold;">${guess}</span>`;
-
-    // Replace <WORD> in sentence
     let sentence = template.replace("<WORD>", coloredGuess);
     if (modelIndex !== null) {
         sentence = `<b>Model ${modelIndex + 1}:</b> ` + sentence;
     }
-    const finalSentence = sentence;
-
 
     let chat = document.getElementById("chatbox");
     let msg = document.createElement("div");
     msg.className = "chat-msg";
-    msg.innerHTML = finalSentence;
+    msg.innerHTML = sentence;
     chat.appendChild(msg);
     chat.scrollTop = chat.scrollHeight;
 }
 
-let lastInferenceTime = 3000;  // default to 500MS
+let lastInferenceTime = 3000;
 
 function sendPrediction() {
     if (!currentWord) return;
 
-    console.log("Sending prediction request..."); // DEBUG
+    console.log("Sending prediction request...");
     const startTime = performance.now();
     fetch("/predict/", {
         method: "POST",
@@ -661,29 +645,25 @@ function sendPrediction() {
         })
     })
     .then(res => {
-        console.log("Response received:", res.status); // DEBUG
+        console.log("Response received:", res.status);
         return res.json();
     })
     .then(data => {
-        console.log("Data received:", data); // DEBUG
+        console.log("Data received:", data);
         const endTime = performance.now();
         lastInferenceTime = data.delay_time
-            ? data.delay_time * 1000  // convert to ms if returned in seconds
-            : endTime - startTime;       // fallback to frontend measurement
-        
+            ? data.delay_time * 1000
+            : endTime - startTime;
+
         const delayInMs = Math.round(lastInferenceTime);
         document.getElementById("delay-display").innerText = `Backend Delay: ${delayInMs} ms`;
 
-            // FIXED: Only call updateModelVision if the container exists
-        
-        
         const visionContainer = document.getElementById("model-vision-container");
         if (visionContainer && data.visual_inputs) {
             updateModelVision(data.visual_inputs);
         }
-        
+
         if (data.top_predictions && data.top_predictions.length > 0) {
-            // Process predictions in order they were received (sorted by inference time)
             data.top_predictions.forEach((modelData) => {
                 updateChat(modelData);
             });
@@ -691,70 +671,57 @@ function sendPrediction() {
             let target = currentWord.toLowerCase().replace(/[^a-z]/g, '');
             let guessedCorrectly = false;
             let winner_model = 0;
-            
-            // Check which model guessed correctly first
+
             data.top_predictions.forEach((modelData) => {
                 const predictions = modelData[0];
                 if (predictions && predictions.length > 0) {
                     const predClean = predictions[0][0].toLowerCase().replace(/[^a-z]/g, '');
                     if (predClean === target && !guessedCorrectly) {
                         guessedCorrectly = true;
-                        winner_model = modelData[2] + 1; // model_idx is at index 2
+                        winner_model = modelData[2] + 1;
                         console.log(`✅ Model ${winner_model} guessed correctly.`);
                     }
                 }
             });
 
             if (guessedCorrectly) {
-                
-                if (gameEnded) 
-                {
-                clearInterval(gameTimer);
-                clearInterval(timerInterval); // ADDED: Clear timer interval
-                setTimeout(() => location.reload(), 100000);
-                console.log("Game ended, model guessed correctly."); // DEBUG
-                return;
+                if (gameEnded) {
+                    clearInterval(gameTimer);
+                    clearInterval(timerInterval);
+                    setTimeout(() => location.reload(), 100000);
+                    console.log("Game ended, model guessed correctly.");
+                    return;
                 }
-                 // Set game as ended to prevent further actions
                 document.getElementById("hint-status").innerText = "🎉 Model guessed correctly!";
                 document.getElementById("final-status").innerText = `🎉 Model ${winner_model} guessed correctly! The word was: ${currentWord}`;
                 document.getElementById("final-status").style.color = "green";
                 gameEnded = true;
                 clearInterval(gameTimer);
-                clearInterval(timerInterval); // ADDED: Clear timer interval
+                clearInterval(timerInterval);
                 setTimeout(() => location.reload(), 100000);
                 return;
-            }
-            else {
-
-                // ✅ ADD THIS BLOCK RIGHT HERE
+            } else {
                 data.top_predictions.forEach((modelData) => {
                     const predictions = modelData[0];
                     if (predictions && predictions.length > 0) {
-                        const guess = predictions[0][0];
+                        const guess      = predictions[0][0];
                         const normalized = guess.toLowerCase().replace(/[^a-z]/g, '');
-                        const target = currentWord.toLowerCase().replace(/[^a-z]/g, '');
-
+                        const target     = currentWord.toLowerCase().replace(/[^a-z]/g, '');
                         if (normalized !== target && !failedGuesses.includes(normalized)) {
                             failedGuesses.push(normalized);
                             console.log(`🔁 Added to failed guesses (frontend): ${normalized}`);
                         }
                     }
                 });
-                console.log("No model guessed correctly yet."); // DEBUG
+                console.log("No model guessed correctly yet.");
             }
-
         } else {
-            console.log("No predictions received"); // DEBUG
+            console.log("No predictions received");
         }
     })
-
-    
     .catch(error => {
-        console.error("Prediction error:", error); // DEBUG
+        console.error("Prediction error:", error);
     });
-   
-
 }
 
 function revealHint() {
@@ -762,25 +729,19 @@ function revealHint() {
     if (available.length === 0) return;
     let i = available[Math.floor(Math.random() * available.length)];
     hints.push({ index: i, letter: currentWord[i] });
-
-    // Create visual mask
     let display = "";
     for (let j = 0; j < currentWord.length; j++) {
         let match = hints.find(h => h.index === j);
         display += match ? match.letter : "_";
     }
-
     document.getElementById("hint-status").innerText = `HINT Revealed to model: ${display}`;
 }
 
-// ADDED: Separate function to update timer display
 function updateTimer() {
     if (!startTime) return;
-    
     let elapsed = (Date.now() - startTime) / 1000;
     let rem = Math.max(0, 60 - Math.floor(elapsed));
     document.getElementById("timer").innerText = `Time left: ${rem}s`;
-    
     if (elapsed >= 60) {
         gameEnded = true;
         document.getElementById("hint-status").innerText += " ⏱ Time's up!";
@@ -789,7 +750,6 @@ function updateTimer() {
         clearInterval(gameTimer);
         clearInterval(timerInterval);
         setTimeout(() => location.reload(), 10000);
-        return;
     }
 }
 
@@ -797,66 +757,35 @@ function startPredictionCycle() {
     startTime = Date.now();
     hints = [];
     document.getElementById("hint-status").innerText = "HINT Revealed to model: " + "_ ".repeat(currentWord.length);
-
-    // ADDED: Start timer update interval
     timerInterval = setInterval(updateTimer, 1000);
 
     function predictLoop() {
         let elapsed = (Date.now() - startTime) / 1000;
 
-        //if (elapsed < 0.5 && Math.random() < 0.8) {
-        //    if (Math.random() < 0.3) {
-        //        let randomGuess = randomWords[Math.floor(Math.random() * randomWords.length)];
-        //        updateChat([[[randomGuess, 0.01, 0]]]);
-        //        scheduleNext(); return;
-        //    } else {
-        //        let candidates = randomWords.filter(w => w.length === currentWord.length);
-        //        let randomGuess = (candidates.length ? candidates : randomWords)[Math.floor(Math.random() * (candidates.length || randomWords.length))];
-        //        updateChat([[[randomGuess, 0.01]]]);
-        //        scheduleNext(); return;
-        //    }
-        //}
+        if      (elapsed > 15 && hints.length < 1) revealHint();
+        else if (elapsed > 25 && hints.length < 2) revealHint();
+        else if (elapsed > 35 && hints.length < 3 && currentWord.length > 3) revealHint();
+        else if (elapsed > 50 && hints.length < 4 && currentWord.length > 4) revealHint();
 
-        if (elapsed > 15 && hints.length < 1) {   //number of hints =0 and elapsed time >15 and word length >=3
-            revealHint();
-        } else if (elapsed > 25 && hints.length < 2) {  //number of hints=1
-            revealHint();
-        } else if (elapsed > 35 && hints.length < 3 && currentWord.length>3) {
-            revealHint();
-        } else if (elapsed > 50 && hints.length < 4 && currentWord.length>4) {
-            revealHint();
-        }
-
-        // REMOVED: Timer update from here since it's now handled separately
-        
         if (elapsed >= 60) {
             gameEnded = true;
             document.getElementById("hint-status").innerText += " ⏱ Time's up!";
             document.getElementById("final-status").innerText = "⏱ Time's up!";
             document.getElementById("final-status").style.color = "red";
-            clearInterval(timerInterval); // ADDED: Clear timer interval
+            clearInterval(timerInterval);
             setTimeout(() => location.reload(), 100000);
             return;
         }
 
         sendPrediction();
         scheduleNext();
-        
-
-    
     }
 
     function scheduleNext() {
-        const buffer = 1000; // add a small buffer in ms
-
-        //const delay = 1000+ Math.random() * 1000;
+        const buffer = 1000;
         const delay = lastInferenceTime + buffer;
         gameTimer = setTimeout(predictLoop, delay);
     }
-
-    
-
-
 
     predictLoop();
 }
@@ -865,13 +794,8 @@ clearCanvas();
 
 function updateModelVision(visual_inputs) {
     const container = document.getElementById("model-vision-container");
-    if (!container) {
-        console.error("model-vision-container not found!"); // DEBUG
-        return;
-    }
-    
+    if (!container) return;
     container.innerHTML = "";
-
     visual_inputs.forEach(input => {
         const box = document.createElement("div");
         box.style.border = "1px solid #ccc";
@@ -880,7 +804,7 @@ function updateModelVision(visual_inputs) {
         box.innerHTML = `
             <img src="data:image/png;base64,${input.img}" width="128" height="128"><br>
             <small><b>1.</b> ${input.preds[0][0]}<br>
-                <b>2.</b> ${input.preds[1][0]}</small>
+                   <b>2.</b> ${input.preds[1][0]}</small>
         `;
         container.appendChild(box);
     });
