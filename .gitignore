@@ -4,4 +4,4 @@ __pycache__/
 backup_apps.json
 salvo_website/staticfiles/
 *.db
-*.logs
+*.log
