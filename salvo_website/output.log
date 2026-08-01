@@ -2942,3 +2942,22 @@ INFO 2026-08-01 18:25:42,791 basehttp "POST /predict/ HTTP/1.1" 200 42039
 INFO 2026-08-01 18:25:50,960 basehttp "GET /draw/ HTTP/1.1" 200 53976
 INFO 2026-08-01 18:25:51,037 basehttp "GET /static/tracker/salvo_logo.jpg HTTP/1.1" 304 0
 INFO 2026-08-01 18:25:51,085 basehttp "GET /static/tracker/favicon.ico HTTP/1.1" 304 0
+INFO 2026-08-01 18:34:22,697 autoreload Watching for file changes with StatReloader
+INFO 2026-08-01 18:34:44,144 basehttp "GET /draw/ HTTP/1.1" 200 53968
+INFO 2026-08-01 18:34:44,196 basehttp "GET /static/tracker/salvo_logo.jpg HTTP/1.1" 304 0
+INFO 2026-08-01 18:34:44,212 basehttp "GET /static/tracker/favicon.ico HTTP/1.1" 304 0
+INFO 2026-08-01 18:34:47,033 basehttp "GET /home/ HTTP/1.1" 200 60215
+INFO 2026-08-01 18:35:43,733 basehttp "GET /view_members/ HTTP/1.1" 200 73773
+INFO 2026-08-01 18:35:46,308 basehttp "GET /home/ HTTP/1.1" 200 60215
+INFO 2026-08-01 18:35:46,332 basehttp "GET /static/tracker/salvo_logo.jpg HTTP/1.1" 304 0
+INFO 2026-08-01 18:46:53,504 basehttp "GET /home/ HTTP/1.1" 200 60227
+INFO 2026-08-01 18:46:53,558 basehttp "GET /static/tracker/salvo_logo.jpg HTTP/1.1" 304 0
+INFO 2026-08-01 18:47:56,806 basehttp "GET /view_members/ HTTP/1.1" 200 73773
+INFO 2026-08-01 18:47:56,841 basehttp "GET /static/tracker/salvo_logo.jpg HTTP/1.1" 304 0
+INFO 2026-08-01 18:47:59,929 basehttp "GET /repo/ HTTP/1.1" 200 31840
+INFO 2026-08-01 18:48:03,351 basehttp "GET /play/draw/ HTTP/1.1" 200 42551
+INFO 2026-08-01 18:48:03,413 views Current models in directory: [{'filename': 'StackPainter27.keras', 'name': 'Default Model', 'uploaded_at': '2026-08-01T18:48:03.413161', 'size': None, 'is_default': True}, {'filename': 'SentientPlayer27.keras', 'name': 'Sentientplayer27', 'uploaded_at': '2026-06-14T15:47:34.059215', 'size': 34903311, 'is_default': False}]
+INFO 2026-08-01 18:48:03,414 basehttp "GET /get-models/ HTTP/1.1" 200 306
+INFO 2026-08-01 18:48:04,638 basehttp "GET /visualizations/ HTTP/1.1" 200 47881
+INFO 2026-08-01 18:48:06,797 basehttp "GET /upload_aaas_model/ HTTP/1.1" 200 29859
+INFO 2026-08-01 18:48:08,483 basehttp "GET /home/ HTTP/1.1" 200 60227
