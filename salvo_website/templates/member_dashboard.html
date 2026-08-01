@@ -185,8 +185,7 @@
                         {{ author_info.name }} ({{ author_info.role }}) <i class="fas fa-check-circle"></i>
                     </a>
                     {% elif user_type == 'account' %}
-                    <a href="{% url 'account_profile' post.author_reg_no %}" style="color: var(--primary-cyan);">{{
-                        author_info.name }}</a>
+                    <a href="{% url 'account_profile' post.author_reg_no %}" style="color: var(--primary-cyan);">{{ author_info.name }}</a>
                     {% else %}
                     <span style="color: var(--text-secondary);">Unknown User</span>
                     {% endif %}

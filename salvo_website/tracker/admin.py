@@ -18,7 +18,7 @@ class TrackerAdminMixin:
 
 class MemberAdmin(TrackerAdminMixin, admin.ModelAdmin):
     list_display = ('name', 'role', 'regno', 'emailid', 'joined_on')
-
+    list_editable = ('role',)
 
 class MeetingAdmin(TrackerAdminMixin, admin.ModelAdmin):
     list_display = ('title', 'code', 'date', 'start_time', 'end_time')

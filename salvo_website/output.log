@@ -2961,3 +2961,340 @@ INFO 2026-08-01 18:48:03,414 basehttp "GET /get-models/ HTTP/1.1" 200 306
 INFO 2026-08-01 18:48:04,638 basehttp "GET /visualizations/ HTTP/1.1" 200 47881
 INFO 2026-08-01 18:48:06,797 basehttp "GET /upload_aaas_model/ HTTP/1.1" 200 29859
 INFO 2026-08-01 18:48:08,483 basehttp "GET /home/ HTTP/1.1" 200 60227
+INFO 2026-08-01 19:07:26,294 autoreload Watching for file changes with StatReloader
+INFO 2026-08-01 19:08:00,675 basehttp "GET / HTTP/1.1" 200 60227
+INFO 2026-08-01 19:08:00,718 basehttp "GET /static/tracker/salvo_logo.jpg HTTP/1.1" 304 0
+INFO 2026-08-01 19:08:06,192 basehttp "GET /member_home/ HTTP/1.1" 200 61675
+INFO 2026-08-01 19:08:10,131 basehttp "GET /profile/member/126003131/ HTTP/1.1" 200 41181
+INFO 2026-08-01 19:12:32,975 autoreload Watching for file changes with StatReloader
+INFO 2026-08-01 19:12:42,132 basehttp "GET /profile/account/126003263/ HTTP/1.1" 200 30824
+INFO 2026-08-01 19:12:42,204 basehttp "GET /static/tracker/salvo_logo.jpg HTTP/1.1" 304 0
+INFO 2026-08-01 19:13:01,664 basehttp "GET /profile/member/128003075/ HTTP/1.1" 200 32347
+INFO 2026-08-01 19:13:07,829 basehttp "GET /member_home/ HTTP/1.1" 200 61729
+INFO 2026-08-01 19:13:14,349 basehttp "GET /profile/account/126003263/ HTTP/1.1" 200 30824
+INFO 2026-08-01 19:14:11,680 basehttp "GET /profile/member/128003075/ HTTP/1.1" 200 32193
+INFO 2026-08-01 19:14:11,737 basehttp "GET /static/tracker/salvo_logo.jpg HTTP/1.1" 304 0
+INFO 2026-08-01 19:16:00,993 basehttp "GET /profile/member/128003075/ HTTP/1.1" 200 32597
+INFO 2026-08-01 19:16:01,031 basehttp "GET /static/tracker/salvo_logo.jpg HTTP/1.1" 304 0
+INFO 2026-08-01 19:16:01,089 basehttp "GET /static/tracker/favicon.ico HTTP/1.1" 304 0
+INFO 2026-08-01 19:16:05,331 basehttp "GET /profile/member/128003075/ HTTP/1.1" 200 32597
+INFO 2026-08-01 19:19:31,243 basehttp "GET /logout/ HTTP/1.1" 302 0
+INFO 2026-08-01 19:19:31,251 basehttp "GET /home/ HTTP/1.1" 200 59987
+INFO 2026-08-01 19:19:31,336 basehttp "GET /static/tracker/salvo_logo.jpg HTTP/1.1" 304 0
+INFO 2026-08-01 19:19:40,488 basehttp "GET /login/ HTTP/1.1" 200 28349
+INFO 2026-08-01 19:19:56,584 basehttp "POST /login/ HTTP/1.1" 200 28642
+INFO 2026-08-01 19:22:10,297 autoreload /home/thunder/huggingfacesalvo/salvowebsite/salvo_website/website/views.py changed, reloading.
+INFO 2026-08-01 19:22:12,414 autoreload Watching for file changes with StatReloader
+INFO 2026-08-01 19:23:22,204 basehttp "POST /login/ HTTP/1.1" 302 0
+INFO 2026-08-01 19:23:22,227 basehttp "GET /member_home/ HTTP/1.1" 200 61729
+INFO 2026-08-01 19:23:22,274 basehttp "GET /static/tracker/salvo_logo.jpg HTTP/1.1" 304 0
+INFO 2026-08-01 19:23:25,517 basehttp "GET /profile/member/126003131/ HTTP/1.1" 200 41607
+INFO 2026-08-01 19:23:39,071 autoreload /home/thunder/huggingfacesalvo/salvowebsite/salvo_website/website/views.py changed, reloading.
+INFO 2026-08-01 19:23:40,626 autoreload Watching for file changes with StatReloader
+INFO 2026-08-01 19:26:53,985 basehttp "GET /profile/member/126003131/ HTTP/1.1" 200 41193
+INFO 2026-08-01 19:26:54,024 basehttp "GET /static/tracker/salvo_logo.jpg HTTP/1.1" 304 0
+INFO 2026-08-01 19:26:59,715 basehttp "GET /profile/member/126003131/ HTTP/1.1" 200 41193
+INFO 2026-08-01 19:26:59,759 basehttp "GET /static/tracker/favicon.ico HTTP/1.1" 304 0
+INFO 2026-08-01 19:27:10,756 basehttp "GET /profile/member/126003131/ HTTP/1.1" 200 41193
+INFO 2026-08-01 22:03:13,100 basehttp "GET /profile/member/126003131/ HTTP/1.1" 200 41147
+INFO 2026-08-01 22:03:13,150 basehttp "GET /static/tracker/salvo_logo.jpg HTTP/1.1" 304 0
+INFO 2026-08-01 22:03:13,279 basehttp "GET /static/tracker/favicon.ico HTTP/1.1" 304 0
+INFO 2026-08-01 22:07:27,000 basehttp "GET /profile/member/128003075/ HTTP/1.1" 200 32147
+INFO 2026-08-01 22:07:27,039 basehttp "GET /static/tracker/salvo_logo.jpg HTTP/1.1" 304 0
+INFO 2026-08-01 22:07:33,540 basehttp "GET /member_home/ HTTP/1.1" 200 61729
+INFO 2026-08-01 22:07:44,144 basehttp "GET /applications/ HTTP/1.1" 200 29908
+INFO 2026-08-01 22:07:45,881 basehttp "GET /applications/?status=accepted HTTP/1.1" 200 29914
+INFO 2026-08-01 22:07:47,416 basehttp "GET /applications/?status=pending HTTP/1.1" 200 29909
+INFO 2026-08-01 22:07:47,940 basehttp "GET /applications/?status=all HTTP/1.1" 200 29908
+INFO 2026-08-01 22:14:09,261 basehttp "GET /member_home/ HTTP/1.1" 200 61690
+INFO 2026-08-01 22:14:09,297 basehttp "GET /static/tracker/salvo_logo.jpg HTTP/1.1" 304 0
+INFO 2026-08-01 22:14:11,825 basehttp "GET /member_home/ HTTP/1.1" 200 61690
+INFO 2026-08-01 22:14:11,880 basehttp "GET /static/tracker/favicon.ico HTTP/1.1" 304 0
+INFO 2026-08-01 22:14:31,810 basehttp "GET /tracker-home HTTP/1.1" 301 0
+INFO 2026-08-01 22:14:31,834 basehttp "GET /tracker-home/ HTTP/1.1" 200 12298
+INFO 2026-08-01 22:24:31,687 autoreload Watching for file changes with StatReloader
+INFO 2026-08-01 22:25:00,716 basehttp "GET /profile/member/126003262/ HTTP/1.1" 200 40605
+INFO 2026-08-01 22:25:00,769 basehttp "GET /static/tracker/salvo_logo.jpg HTTP/1.1" 304 0
+INFO 2026-08-01 22:25:00,846 basehttp "GET /static/tracker/favicon.ico HTTP/1.1" 304 0
+INFO 2026-08-01 22:25:01,660 basehttp "GET /profile/member/126003262/ HTTP/1.1" 200 40605
+INFO 2026-08-01 22:25:42,389 basehttp "GET /home/ HTTP/1.1" 200 60227
+INFO 2026-08-01 22:25:43,508 basehttp "GET /view_members/ HTTP/1.1" 200 73773
+INFO 2026-08-01 22:25:44,482 basehttp "GET /repo/ HTTP/1.1" 200 31840
+INFO 2026-08-01 22:25:46,838 basehttp "GET /play/draw/ HTTP/1.1" 200 42551
+INFO 2026-08-01 22:25:46,885 views Current models in directory: [{'filename': 'StackPainter27.keras', 'name': 'Default Model', 'uploaded_at': '2026-08-01T22:25:46.885738', 'size': None, 'is_default': True}, {'filename': 'SentientPlayer27.keras', 'name': 'Sentientplayer27', 'uploaded_at': '2026-06-14T15:47:34.059215', 'size': 34903311, 'is_default': False}]
+INFO 2026-08-01 22:25:46,886 basehttp "GET /get-models/ HTTP/1.1" 200 306
+INFO 2026-08-01 22:25:54,176 basehttp "GET /play/draw/ HTTP/1.1" 200 42551
+INFO 2026-08-01 22:25:54,209 views Current models in directory: [{'filename': 'StackPainter27.keras', 'name': 'Default Model', 'uploaded_at': '2026-08-01T22:25:54.209700', 'size': None, 'is_default': True}, {'filename': 'SentientPlayer27.keras', 'name': 'Sentientplayer27', 'uploaded_at': '2026-06-14T15:47:34.059215', 'size': 34903311, 'is_default': False}]
+INFO 2026-08-01 22:25:54,210 basehttp "GET /get-models/ HTTP/1.1" 200 306
+INFO 2026-08-01 22:25:55,593 basehttp "GET /visualizations/ HTTP/1.1" 200 47881
+INFO 2026-08-01 22:27:09,374 basehttp "GET /upload_aaas_model/ HTTP/1.1" 200 29857
+INFO 2026-08-01 22:27:09,448 basehttp "GET /static/tracker/salvo_logo.jpg HTTP/1.1" 304 0
+INFO 2026-08-01 22:27:11,774 basehttp "GET /view_members/ HTTP/1.1" 200 73773
+INFO 2026-08-01 22:27:12,535 basehttp "GET /play/draw/ HTTP/1.1" 200 42551
+INFO 2026-08-01 22:27:12,568 views Current models in directory: [{'filename': 'StackPainter27.keras', 'name': 'Default Model', 'uploaded_at': '2026-08-01T22:27:12.568802', 'size': None, 'is_default': True}, {'filename': 'SentientPlayer27.keras', 'name': 'Sentientplayer27', 'uploaded_at': '2026-06-14T15:47:34.059215', 'size': 34903311, 'is_default': False}]
+INFO 2026-08-01 22:27:12,569 basehttp "GET /get-models/ HTTP/1.1" 200 306
+INFO 2026-08-01 22:27:14,466 basehttp "GET /visualizations/ HTTP/1.1" 200 47881
+INFO 2026-08-01 22:27:33,894 basehttp "GET /view_members/ HTTP/1.1" 200 73773
+INFO 2026-08-01 22:27:37,094 basehttp "GET /repo/ HTTP/1.1" 200 31840
+INFO 2026-08-01 22:27:39,114 basehttp "GET /play/draw/ HTTP/1.1" 200 42551
+INFO 2026-08-01 22:27:39,148 views Current models in directory: [{'filename': 'StackPainter27.keras', 'name': 'Default Model', 'uploaded_at': '2026-08-01T22:27:39.148178', 'size': None, 'is_default': True}, {'filename': 'SentientPlayer27.keras', 'name': 'Sentientplayer27', 'uploaded_at': '2026-06-14T15:47:34.059215', 'size': 34903311, 'is_default': False}]
+INFO 2026-08-01 22:27:39,148 basehttp "GET /get-models/ HTTP/1.1" 200 306
+INFO 2026-08-01 22:27:39,746 basehttp "GET /repo/ HTTP/1.1" 200 31840
+INFO 2026-08-01 22:27:44,333 basehttp "GET /play/draw/ HTTP/1.1" 200 42551
+INFO 2026-08-01 22:27:44,366 views Current models in directory: [{'filename': 'StackPainter27.keras', 'name': 'Default Model', 'uploaded_at': '2026-08-01T22:27:44.366898', 'size': None, 'is_default': True}, {'filename': 'SentientPlayer27.keras', 'name': 'Sentientplayer27', 'uploaded_at': '2026-06-14T15:47:34.059215', 'size': 34903311, 'is_default': False}]
+INFO 2026-08-01 22:27:44,367 basehttp "GET /get-models/ HTTP/1.1" 200 306
+INFO 2026-08-01 22:27:50,420 basehttp "GET /visualizations/ HTTP/1.1" 200 47881
+INFO 2026-08-01 22:27:51,715 basehttp "GET /play/draw/ HTTP/1.1" 200 42551
+INFO 2026-08-01 22:27:51,750 views Current models in directory: [{'filename': 'StackPainter27.keras', 'name': 'Default Model', 'uploaded_at': '2026-08-01T22:27:51.750046', 'size': None, 'is_default': True}, {'filename': 'SentientPlayer27.keras', 'name': 'Sentientplayer27', 'uploaded_at': '2026-06-14T15:47:34.059215', 'size': 34903311, 'is_default': False}]
+INFO 2026-08-01 22:27:51,750 basehttp "GET /get-models/ HTTP/1.1" 200 306
+INFO 2026-08-01 22:27:52,870 basehttp "GET /visualizations/ HTTP/1.1" 200 47881
+INFO 2026-08-01 22:28:00,187 basehttp "GET /visualizations/ HTTP/1.1" 200 47881
+INFO 2026-08-01 22:28:00,598 basehttp "GET /visualizations/ HTTP/1.1" 200 47881
+INFO 2026-08-01 22:28:05,506 basehttp "GET /profile/member/128003075/ HTTP/1.1" 200 32156
+INFO 2026-08-01 22:28:15,781 basehttp "GET /upload_aaas_model/ HTTP/1.1" 200 29857
+INFO 2026-08-01 22:28:15,832 basehttp "GET /static/tracker/salvo_logo.jpg HTTP/1.1" 304 0
+INFO 2026-08-01 22:28:18,857 basehttp "GET /profile/member/128003075/ HTTP/1.1" 200 32156
+INFO 2026-08-01 22:28:20,947 basehttp "GET /member/128003075/edit/ HTTP/1.1" 200 29014
+INFO 2026-08-01 22:28:27,801 basehttp "GET /upload_aaas_model/ HTTP/1.1" 200 29857
+INFO 2026-08-01 22:28:29,855 basehttp "GET /upload_aaas_model/ HTTP/1.1" 200 29857
+INFO 2026-08-01 22:28:31,585 basehttp "GET /visualizations/ HTTP/1.1" 200 47881
+INFO 2026-08-01 22:28:33,514 basehttp "GET /play/draw/ HTTP/1.1" 200 42551
+INFO 2026-08-01 22:28:33,547 views Current models in directory: [{'filename': 'StackPainter27.keras', 'name': 'Default Model', 'uploaded_at': '2026-08-01T22:28:33.547417', 'size': None, 'is_default': True}, {'filename': 'SentientPlayer27.keras', 'name': 'Sentientplayer27', 'uploaded_at': '2026-06-14T15:47:34.059215', 'size': 34903311, 'is_default': False}]
+INFO 2026-08-01 22:28:33,548 basehttp "GET /get-models/ HTTP/1.1" 200 306
+INFO 2026-08-01 22:28:34,507 basehttp "GET /repo/ HTTP/1.1" 200 31840
+INFO 2026-08-01 22:28:35,912 basehttp "GET /view_members/ HTTP/1.1" 200 73773
+INFO 2026-08-01 22:28:36,661 basehttp "GET /home/ HTTP/1.1" 200 60227
+INFO 2026-08-01 22:28:37,770 basehttp "GET /view_members/ HTTP/1.1" 200 73773
+INFO 2026-08-01 22:28:39,126 basehttp "GET /home/ HTTP/1.1" 200 60227
+INFO 2026-08-01 22:28:40,810 basehttp "GET /view_members/ HTTP/1.1" 200 73773
+INFO 2026-08-01 22:28:42,396 basehttp "GET /home/ HTTP/1.1" 200 60227
+INFO 2026-08-01 22:28:57,752 basehttp "GET /view_members/ HTTP/1.1" 200 73773
+INFO 2026-08-01 22:29:00,960 basehttp "GET /home/ HTTP/1.1" 200 60227
+INFO 2026-08-01 22:29:07,209 basehttp "GET /view_members/ HTTP/1.1" 200 73773
+INFO 2026-08-01 22:29:14,270 basehttp "GET /home/ HTTP/1.1" 200 60227
+INFO 2026-08-01 22:29:16,266 basehttp "GET /view_members/ HTTP/1.1" 200 73773
+INFO 2026-08-01 22:29:16,306 basehttp "GET /static/tracker/salvo_logo.jpg HTTP/1.1" 304 0
+INFO 2026-08-01 22:29:21,898 basehttp "GET /view_members/ HTTP/1.1" 200 73773
+INFO 2026-08-01 22:29:24,887 basehttp "GET /repo/ HTTP/1.1" 200 31840
+INFO 2026-08-01 22:29:27,579 basehttp "GET /play/draw/ HTTP/1.1" 200 42551
+INFO 2026-08-01 22:29:27,672 views Current models in directory: [{'filename': 'StackPainter27.keras', 'name': 'Default Model', 'uploaded_at': '2026-08-01T22:29:27.672217', 'size': None, 'is_default': True}, {'filename': 'SentientPlayer27.keras', 'name': 'Sentientplayer27', 'uploaded_at': '2026-06-14T15:47:34.059215', 'size': 34903311, 'is_default': False}]
+INFO 2026-08-01 22:29:27,672 basehttp "GET /get-models/ HTTP/1.1" 200 306
+INFO 2026-08-01 22:29:29,017 basehttp "GET /visualizations/ HTTP/1.1" 200 47881
+INFO 2026-08-01 22:29:36,506 basehttp "GET /visualizations/ HTTP/1.1" 200 47881
+INFO 2026-08-01 22:29:39,407 basehttp "GET /visualizations/ HTTP/1.1" 200 47881
+INFO 2026-08-01 22:29:50,513 basehttp "GET /play/draw/ HTTP/1.1" 200 42551
+INFO 2026-08-01 22:29:50,550 views Current models in directory: [{'filename': 'StackPainter27.keras', 'name': 'Default Model', 'uploaded_at': '2026-08-01T22:29:50.550624', 'size': None, 'is_default': True}, {'filename': 'SentientPlayer27.keras', 'name': 'Sentientplayer27', 'uploaded_at': '2026-06-14T15:47:34.059215', 'size': 34903311, 'is_default': False}]
+INFO 2026-08-01 22:29:50,551 basehttp "GET /get-models/ HTTP/1.1" 200 306
+INFO 2026-08-01 22:29:57,373 basehttp "GET /home/ HTTP/1.1" 200 60227
+INFO 2026-08-01 22:29:58,690 basehttp "GET /view_members/ HTTP/1.1" 200 73773
+INFO 2026-08-01 22:30:18,684 basehttp "GET /view_members/ HTTP/1.1" 200 73773
+INFO 2026-08-01 22:30:18,727 basehttp "GET /static/tracker/salvo_logo.jpg HTTP/1.1" 304 0
+INFO 2026-08-01 22:30:19,348 basehttp "GET /repo/ HTTP/1.1" 200 31840
+INFO 2026-08-01 22:30:19,903 basehttp "GET /play/draw/ HTTP/1.1" 200 42551
+INFO 2026-08-01 22:30:19,919 views Current models in directory: [{'filename': 'StackPainter27.keras', 'name': 'Default Model', 'uploaded_at': '2026-08-01T22:30:19.919474', 'size': None, 'is_default': True}, {'filename': 'SentientPlayer27.keras', 'name': 'Sentientplayer27', 'uploaded_at': '2026-06-14T15:47:34.059215', 'size': 34903311, 'is_default': False}]
+INFO 2026-08-01 22:30:19,919 basehttp "GET /get-models/ HTTP/1.1" 200 306
+INFO 2026-08-01 22:30:20,521 basehttp "GET /visualizations/ HTTP/1.1" 200 47881
+INFO 2026-08-01 22:30:21,111 basehttp "GET /upload_aaas_model/ HTTP/1.1" 200 29857
+INFO 2026-08-01 22:30:22,329 basehttp "GET /profile/member/128003075/ HTTP/1.1" 200 32156
+INFO 2026-08-01 22:35:13,078 basehttp "GET /view_members/ HTTP/1.1" 200 73773
+INFO 2026-08-01 22:35:13,122 basehttp "GET /static/tracker/salvo_logo.jpg HTTP/1.1" 304 0
+INFO 2026-08-01 22:35:15,313 basehttp "GET /home/ HTTP/1.1" 200 60227
+INFO 2026-08-01 22:35:34,407 basehttp "GET /view_members/ HTTP/1.1" 200 73773
+INFO 2026-08-01 22:36:40,588 basehttp "GET /repo/ HTTP/1.1" 200 31840
+INFO 2026-08-01 22:36:40,627 basehttp "GET /static/tracker/salvo_logo.jpg HTTP/1.1" 304 0
+INFO 2026-08-01 22:36:41,290 basehttp "GET /view_members/ HTTP/1.1" 200 73773
+INFO 2026-08-01 22:36:42,085 basehttp "GET /repo/ HTTP/1.1" 200 31840
+INFO 2026-08-01 22:36:45,425 basehttp "GET /play/draw/ HTTP/1.1" 200 42551
+INFO 2026-08-01 22:36:45,467 views Current models in directory: [{'filename': 'StackPainter27.keras', 'name': 'Default Model', 'uploaded_at': '2026-08-01T22:36:45.467541', 'size': None, 'is_default': True}, {'filename': 'SentientPlayer27.keras', 'name': 'Sentientplayer27', 'uploaded_at': '2026-06-14T15:47:34.059215', 'size': 34903311, 'is_default': False}]
+INFO 2026-08-01 22:36:45,468 basehttp "GET /get-models/ HTTP/1.1" 200 306
+INFO 2026-08-01 22:36:49,746 basehttp "GET /upload_aaas_model/ HTTP/1.1" 200 29857
+INFO 2026-08-01 22:36:52,523 basehttp "GET /profile/member/128003075/ HTTP/1.1" 200 32156
+INFO 2026-08-01 22:37:00,817 basehttp "GET /profile/member/128003075/ HTTP/1.1" 200 32156
+INFO 2026-08-01 22:37:04,752 basehttp "GET /upload_aaas_model/ HTTP/1.1" 200 29857
+INFO 2026-08-01 22:37:05,577 basehttp "GET /play/draw/ HTTP/1.1" 200 42551
+INFO 2026-08-01 22:37:05,617 views Current models in directory: [{'filename': 'StackPainter27.keras', 'name': 'Default Model', 'uploaded_at': '2026-08-01T22:37:05.617732', 'size': None, 'is_default': True}, {'filename': 'SentientPlayer27.keras', 'name': 'Sentientplayer27', 'uploaded_at': '2026-06-14T15:47:34.059215', 'size': 34903311, 'is_default': False}]
+INFO 2026-08-01 22:37:05,618 basehttp "GET /get-models/ HTTP/1.1" 200 306
+INFO 2026-08-01 22:37:06,743 basehttp "GET /view_members/ HTTP/1.1" 200 73773
+INFO 2026-08-01 22:37:11,667 basehttp "GET /home/ HTTP/1.1" 200 60227
+INFO 2026-08-01 22:37:20,538 basehttp "GET /play/draw/ HTTP/1.1" 200 42551
+INFO 2026-08-01 22:37:20,580 views Current models in directory: [{'filename': 'StackPainter27.keras', 'name': 'Default Model', 'uploaded_at': '2026-08-01T22:37:20.580454', 'size': None, 'is_default': True}, {'filename': 'SentientPlayer27.keras', 'name': 'Sentientplayer27', 'uploaded_at': '2026-06-14T15:47:34.059215', 'size': 34903311, 'is_default': False}]
+INFO 2026-08-01 22:37:20,580 basehttp "GET /get-models/ HTTP/1.1" 200 306
+INFO 2026-08-01 22:37:22,735 basehttp "GET /repo/ HTTP/1.1" 200 31840
+INFO 2026-08-01 22:37:24,077 basehttp "GET /play/draw/ HTTP/1.1" 200 42551
+INFO 2026-08-01 22:37:24,110 views Current models in directory: [{'filename': 'StackPainter27.keras', 'name': 'Default Model', 'uploaded_at': '2026-08-01T22:37:24.110820', 'size': None, 'is_default': True}, {'filename': 'SentientPlayer27.keras', 'name': 'Sentientplayer27', 'uploaded_at': '2026-06-14T15:47:34.059215', 'size': 34903311, 'is_default': False}]
+INFO 2026-08-01 22:37:24,111 basehttp "GET /get-models/ HTTP/1.1" 200 306
+INFO 2026-08-01 22:37:26,130 basehttp "GET /repo/ HTTP/1.1" 200 31840
+INFO 2026-08-01 22:37:27,147 basehttp "GET /play/draw/ HTTP/1.1" 200 42551
+INFO 2026-08-01 22:37:27,199 views Current models in directory: [{'filename': 'StackPainter27.keras', 'name': 'Default Model', 'uploaded_at': '2026-08-01T22:37:27.199666', 'size': None, 'is_default': True}, {'filename': 'SentientPlayer27.keras', 'name': 'Sentientplayer27', 'uploaded_at': '2026-06-14T15:47:34.059215', 'size': 34903311, 'is_default': False}]
+INFO 2026-08-01 22:37:27,200 basehttp "GET /get-models/ HTTP/1.1" 200 306
+INFO 2026-08-01 22:37:27,843 basehttp "GET /visualizations/ HTTP/1.1" 200 47881
+INFO 2026-08-01 22:37:28,702 basehttp "GET /repo/ HTTP/1.1" 200 31840
+INFO 2026-08-01 22:37:46,482 basehttp "GET /visualizations/ HTTP/1.1" 200 47881
+INFO 2026-08-01 22:37:46,522 basehttp "GET /static/tracker/salvo_logo.jpg HTTP/1.1" 304 0
+INFO 2026-08-01 22:37:50,766 basehttp "GET /profile/member/128003075/ HTTP/1.1" 200 32156
+INFO 2026-08-01 22:39:49,410 basehttp "GET /member_home/ HTTP/1.1" 200 61690
+INFO 2026-08-01 22:39:49,477 basehttp "GET /static/tracker/salvo_logo.jpg HTTP/1.1" 304 0
+INFO 2026-08-01 22:49:02,133 autoreload /home/thunder/huggingfacesalvo/salvowebsite/salvo_website/salvo_website/routers.py changed, reloading.
+INFO 2026-08-01 22:49:04,074 autoreload Watching for file changes with StatReloader
+INFO 2026-08-01 22:49:43,564 basehttp "GET /kesav_the_wheel_chair_guy/ HTTP/1.1" 302 0
+INFO 2026-08-01 22:49:43,591 basehttp "GET /kesav_the_wheel_chair_guy/login/?next=/kesav_the_wheel_chair_guy/ HTTP/1.1" 200 4257
+INFO 2026-08-01 22:49:43,689 basehttp "GET /static/admin/css/base.css HTTP/1.1" 304 0
+INFO 2026-08-01 22:49:43,690 basehttp "GET /static/admin/css/login.css HTTP/1.1" 304 0
+INFO 2026-08-01 22:49:43,691 basehttp "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0
+INFO 2026-08-01 22:49:43,691 basehttp "GET /static/admin/css/responsive.css HTTP/1.1" 304 0
+INFO 2026-08-01 22:49:43,692 basehttp "GET /static/admin/css/dark_mode.css HTTP/1.1" 304 0
+INFO 2026-08-01 22:49:43,693 basehttp "GET /static/admin/js/theme.js HTTP/1.1" 304 0
+INFO 2026-08-01 22:49:43,697 basehttp "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0
+WARNING 2026-08-01 22:49:43,771 log Not Found: /favicon.ico
+WARNING 2026-08-01 22:49:43,771 basehttp "GET /favicon.ico HTTP/1.1" 404 24663
+INFO 2026-08-01 22:50:50,001 basehttp "POST /kesav_the_wheel_chair_guy/login/?next=/kesav_the_wheel_chair_guy/ HTTP/1.1" 302 0
+INFO 2026-08-01 22:50:50,032 basehttp "GET /kesav_the_wheel_chair_guy/ HTTP/1.1" 200 16429
+INFO 2026-08-01 22:50:50,129 basehttp "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0
+INFO 2026-08-01 22:50:50,129 basehttp "GET /static/admin/js/theme.js HTTP/1.1" 304 0
+INFO 2026-08-01 22:50:50,129 basehttp "GET /static/admin/css/base.css HTTP/1.1" 304 0
+INFO 2026-08-01 22:50:50,130 basehttp "GET /static/admin/css/dashboard.css HTTP/1.1" 304 0
+INFO 2026-08-01 22:50:50,130 basehttp "GET /static/admin/css/responsive.css HTTP/1.1" 304 0
+INFO 2026-08-01 22:50:50,130 basehttp "GET /static/admin/css/dark_mode.css HTTP/1.1" 304 0
+INFO 2026-08-01 22:50:50,136 basehttp "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0
+INFO 2026-08-01 22:50:50,143 basehttp "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 304 0
+INFO 2026-08-01 22:50:50,143 basehttp "GET /static/admin/img/icon-deletelink.svg HTTP/1.1" 304 0
+INFO 2026-08-01 22:50:50,143 basehttp "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 304 0
+INFO 2026-08-01 22:50:55,399 basehttp "GET /kesav_the_wheel_chair_guy/tracker/member/ HTTP/1.1" 200 42658
+INFO 2026-08-01 22:50:55,432 basehttp "GET /static/admin/js/jquery.init.js HTTP/1.1" 304 0
+INFO 2026-08-01 22:50:55,432 basehttp "GET /static/admin/css/changelists.css HTTP/1.1" 304 0
+INFO 2026-08-01 22:50:55,432 basehttp "GET /static/admin/js/core.js HTTP/1.1" 304 0
+INFO 2026-08-01 22:50:55,432 basehttp "GET /static/admin/js/vendor/jquery/jquery.min.js HTTP/1.1" 304 0
+INFO 2026-08-01 22:50:55,433 basehttp "GET /static/admin/js/actions.js HTTP/1.1" 304 0
+INFO 2026-08-01 22:50:55,434 basehttp "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 304 0
+INFO 2026-08-01 22:50:55,434 basehttp "GET /static/admin/js/urlify.js HTTP/1.1" 304 0
+INFO 2026-08-01 22:50:55,436 basehttp "GET /static/admin/js/prepopulate.js HTTP/1.1" 304 0
+INFO 2026-08-01 22:50:55,436 basehttp "GET /static/admin/js/vendor/xregexp/xregexp.min.js HTTP/1.1" 304 0
+INFO 2026-08-01 22:50:55,437 basehttp "GET /kesav_the_wheel_chair_guy/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-08-01 22:50:55,495 basehttp "GET /static/admin/js/filters.js HTTP/1.1" 304 0
+INFO 2026-08-01 22:50:55,506 basehttp "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 304 0
+INFO 2026-08-01 22:50:58,794 basehttp "GET /kesav_the_wheel_chair_guy/ HTTP/1.1" 200 16429
+INFO 2026-08-01 22:51:00,859 basehttp "GET /kesav_the_wheel_chair_guy/website/member/ HTTP/1.1" 200 46840
+INFO 2026-08-01 22:51:00,895 basehttp "GET /static/admin/css/forms.css HTTP/1.1" 304 0
+INFO 2026-08-01 22:51:00,896 basehttp "GET /kesav_the_wheel_chair_guy/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-08-01 22:51:00,900 basehttp "GET /static/admin/css/widgets.css HTTP/1.1" 304 0
+INFO 2026-08-01 22:51:03,018 basehttp "GET /kesav_the_wheel_chair_guy/ HTTP/1.1" 200 16429
+INFO 2026-08-01 22:51:05,457 basehttp "GET /kesav_the_wheel_chair_guy/tracker/member/ HTTP/1.1" 200 42658
+INFO 2026-08-01 22:51:05,486 basehttp "GET /kesav_the_wheel_chair_guy/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-08-01 22:51:11,885 autoreload /home/thunder/huggingfacesalvo/salvowebsite/salvo_website/salvo_website/routers.py changed, reloading.
+INFO 2026-08-01 22:51:13,226 autoreload Watching for file changes with StatReloader
+INFO 2026-08-01 22:55:26,608 autoreload /home/thunder/huggingfacesalvo/salvowebsite/salvo_website/tracker/admin.py changed, reloading.
+INFO 2026-08-01 22:55:27,937 autoreload Watching for file changes with StatReloader
+INFO 2026-08-01 22:56:01,804 basehttp "GET /kesav_the_wheel_chair_guy/tracker/member/ HTTP/1.1" 200 42658
+INFO 2026-08-01 22:56:01,851 basehttp "GET /static/admin/css/base.css HTTP/1.1" 304 0
+INFO 2026-08-01 22:56:01,853 basehttp "GET /static/admin/css/dark_mode.css HTTP/1.1" 304 0
+INFO 2026-08-01 22:56:01,853 basehttp "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0
+INFO 2026-08-01 22:56:01,855 basehttp "GET /static/admin/css/responsive.css HTTP/1.1" 304 0
+INFO 2026-08-01 22:56:01,855 basehttp "GET /static/admin/js/jquery.init.js HTTP/1.1" 304 0
+INFO 2026-08-01 22:56:01,855 basehttp "GET /static/admin/js/vendor/jquery/jquery.min.js HTTP/1.1" 304 0
+INFO 2026-08-01 22:56:01,856 basehttp "GET /static/admin/css/changelists.css HTTP/1.1" 304 0
+INFO 2026-08-01 22:56:01,856 basehttp "GET /static/admin/js/theme.js HTTP/1.1" 304 0
+INFO 2026-08-01 22:56:01,858 basehttp "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 304 0
+INFO 2026-08-01 22:56:01,858 basehttp "GET /static/admin/js/core.js HTTP/1.1" 304 0
+INFO 2026-08-01 22:56:01,859 basehttp "GET /kesav_the_wheel_chair_guy/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-08-01 22:56:01,860 basehttp "GET /static/admin/js/actions.js HTTP/1.1" 304 0
+INFO 2026-08-01 22:56:01,896 basehttp "GET /static/admin/js/prepopulate.js HTTP/1.1" 304 0
+INFO 2026-08-01 22:56:01,900 basehttp "GET /static/admin/js/vendor/xregexp/xregexp.min.js HTTP/1.1" 304 0
+INFO 2026-08-01 22:56:01,900 basehttp "GET /static/admin/js/urlify.js HTTP/1.1" 304 0
+INFO 2026-08-01 22:56:01,949 basehttp "GET /static/admin/js/filters.js HTTP/1.1" 304 0
+INFO 2026-08-01 22:56:01,949 basehttp "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0
+INFO 2026-08-01 22:56:04,367 basehttp "GET /kesav_the_wheel_chair_guy/tracker/member/ HTTP/1.1" 200 42658
+INFO 2026-08-01 22:56:04,399 basehttp "GET /kesav_the_wheel_chair_guy/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-08-01 22:56:53,960 basehttp "GET /kesav_the_wheel_chair_guy/tracker/member/ HTTP/1.1" 200 42658
+INFO 2026-08-01 22:56:53,992 basehttp "GET /kesav_the_wheel_chair_guy/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-08-01 22:56:54,841 basehttp "GET /kesav_the_wheel_chair_guy/tracker/member/ HTTP/1.1" 200 42658
+INFO 2026-08-01 22:56:54,872 basehttp "GET /kesav_the_wheel_chair_guy/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-08-01 22:56:57,143 basehttp "GET /kesav_the_wheel_chair_guy/tracker/member/ HTTP/1.1" 200 42658
+INFO 2026-08-01 22:56:57,174 basehttp "GET /kesav_the_wheel_chair_guy/jsi18n/ HTTP/1.1" 200 3342
+ERROR 2026-08-01 22:59:46,638 log Invalid HTTP_HOST header: 'testserver'. You may need to add 'testserver' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/thunder/salvoWebsite/SALVO-Website/.venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/thunder/salvoWebsite/SALVO-Website/.venv/lib/python3.11/site-packages/django/utils/deprecation.py", line 119, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/thunder/salvoWebsite/SALVO-Website/.venv/lib/python3.11/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/thunder/salvoWebsite/SALVO-Website/.venv/lib/python3.11/site-packages/django/http/request.py", line 203, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'testserver'. You may need to add 'testserver' to ALLOWED_HOSTS.
+ERROR 2026-08-01 22:59:46,640 log Invalid HTTP_HOST header: 'testserver'. You may need to add 'testserver' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/thunder/salvoWebsite/SALVO-Website/.venv/lib/python3.11/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/thunder/salvoWebsite/SALVO-Website/.venv/lib/python3.11/site-packages/django/utils/deprecation.py", line 119, in __call__
+    response = self.process_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/thunder/salvoWebsite/SALVO-Website/.venv/lib/python3.11/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+           ^^^^^^^^^^^^^^^^^^
+  File "/home/thunder/salvoWebsite/SALVO-Website/.venv/lib/python3.11/site-packages/django/http/request.py", line 203, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'testserver'. You may need to add 'testserver' to ALLOWED_HOSTS.
+INFO 2026-08-01 23:02:12,968 basehttp "GET /kesav_the_wheel_chair_guy/tracker/member/ HTTP/1.1" 200 42658
+INFO 2026-08-01 23:02:13,015 basehttp "GET /static/admin/css/base.css HTTP/1.1" 304 0
+INFO 2026-08-01 23:02:13,016 basehttp "GET /static/admin/js/theme.js HTTP/1.1" 304 0
+INFO 2026-08-01 23:02:13,017 basehttp "GET /static/admin/css/dark_mode.css HTTP/1.1" 304 0
+INFO 2026-08-01 23:02:13,019 basehttp "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0
+INFO 2026-08-01 23:02:13,020 basehttp "GET /static/admin/js/vendor/jquery/jquery.min.js HTTP/1.1" 304 0
+INFO 2026-08-01 23:02:13,020 basehttp "GET /static/admin/js/jquery.init.js HTTP/1.1" 304 0
+INFO 2026-08-01 23:02:13,021 basehttp "GET /static/admin/css/changelists.css HTTP/1.1" 304 0
+INFO 2026-08-01 23:02:13,022 basehttp "GET /static/admin/css/responsive.css HTTP/1.1" 304 0
+INFO 2026-08-01 23:02:13,022 basehttp "GET /kesav_the_wheel_chair_guy/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-08-01 23:02:13,023 basehttp "GET /static/admin/js/core.js HTTP/1.1" 304 0
+INFO 2026-08-01 23:02:13,025 basehttp "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 304 0
+INFO 2026-08-01 23:02:13,025 basehttp "GET /static/admin/js/actions.js HTTP/1.1" 304 0
+INFO 2026-08-01 23:02:13,058 basehttp "GET /static/admin/js/urlify.js HTTP/1.1" 304 0
+INFO 2026-08-01 23:02:13,063 basehttp "GET /static/admin/js/prepopulate.js HTTP/1.1" 304 0
+INFO 2026-08-01 23:02:13,064 basehttp "GET /static/admin/js/vendor/xregexp/xregexp.min.js HTTP/1.1" 304 0
+INFO 2026-08-01 23:02:13,108 basehttp "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0
+INFO 2026-08-01 23:02:13,108 basehttp "GET /static/admin/js/filters.js HTTP/1.1" 304 0
+INFO 2026-08-01 23:04:13,067 autoreload /home/thunder/huggingfacesalvo/salvowebsite/salvo_website/salvo_website/routers.py changed, reloading.
+INFO 2026-08-01 23:04:14,641 autoreload Watching for file changes with StatReloader
+INFO 2026-08-01 23:04:23,284 basehttp "GET /kesav_the_wheel_chair_guy/tracker/member/ HTTP/1.1" 200 63616
+INFO 2026-08-01 23:04:23,327 basehttp "GET /static/admin/css/base.css HTTP/1.1" 304 0
+INFO 2026-08-01 23:04:23,332 basehttp "GET /static/admin/css/dark_mode.css HTTP/1.1" 304 0
+INFO 2026-08-01 23:04:23,333 basehttp "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0
+INFO 2026-08-01 23:04:23,334 basehttp "GET /static/admin/css/responsive.css HTTP/1.1" 304 0
+INFO 2026-08-01 23:04:23,337 basehttp "GET /static/admin/js/vendor/jquery/jquery.min.js HTTP/1.1" 304 0
+INFO 2026-08-01 23:04:23,338 basehttp "GET /static/admin/css/forms.css HTTP/1.1" 304 0
+INFO 2026-08-01 23:04:23,338 basehttp "GET /static/admin/js/theme.js HTTP/1.1" 304 0
+INFO 2026-08-01 23:04:23,339 basehttp "GET /static/admin/css/changelists.css HTTP/1.1" 304 0
+INFO 2026-08-01 23:04:23,341 basehttp "GET /static/admin/js/jquery.init.js HTTP/1.1" 304 0
+INFO 2026-08-01 23:04:23,341 basehttp "GET /kesav_the_wheel_chair_guy/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-08-01 23:04:23,341 basehttp "GET /static/admin/js/core.js HTTP/1.1" 304 0
+INFO 2026-08-01 23:04:23,341 basehttp "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 304 0
+INFO 2026-08-01 23:04:23,378 basehttp "GET /static/admin/css/widgets.css HTTP/1.1" 304 0
+INFO 2026-08-01 23:04:23,381 basehttp "GET /static/admin/js/actions.js HTTP/1.1" 304 0
+INFO 2026-08-01 23:04:23,392 basehttp "GET /static/admin/js/urlify.js HTTP/1.1" 304 0
+INFO 2026-08-01 23:04:23,393 basehttp "GET /static/admin/js/prepopulate.js HTTP/1.1" 304 0
+INFO 2026-08-01 23:04:23,393 basehttp "GET /static/admin/js/vendor/xregexp/xregexp.min.js HTTP/1.1" 304 0
+INFO 2026-08-01 23:04:23,437 basehttp "GET /static/admin/js/filters.js HTTP/1.1" 304 0
+INFO 2026-08-01 23:04:23,437 basehttp "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0
+INFO 2026-08-01 23:10:49,555 basehttp "GET /kesav_the_wheel_chair_guy/tracker/member/ HTTP/1.1" 200 63616
+INFO 2026-08-01 23:10:49,589 basehttp "GET /static/admin/css/dark_mode.css HTTP/1.1" 304 0
+INFO 2026-08-01 23:10:49,590 basehttp "GET /static/admin/css/base.css HTTP/1.1" 304 0
+INFO 2026-08-01 23:10:49,591 basehttp "GET /static/admin/css/responsive.css HTTP/1.1" 304 0
+INFO 2026-08-01 23:10:49,591 basehttp "GET /static/admin/js/theme.js HTTP/1.1" 304 0
+INFO 2026-08-01 23:10:49,592 basehttp "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0
+INFO 2026-08-01 23:10:49,592 basehttp "GET /static/admin/css/forms.css HTTP/1.1" 304 0
+INFO 2026-08-01 23:10:49,593 basehttp "GET /static/admin/css/changelists.css HTTP/1.1" 304 0
+INFO 2026-08-01 23:10:49,594 basehttp "GET /static/admin/js/vendor/jquery/jquery.min.js HTTP/1.1" 304 0
+INFO 2026-08-01 23:10:49,595 basehttp "GET /kesav_the_wheel_chair_guy/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-08-01 23:10:49,595 basehttp "GET /static/admin/js/core.js HTTP/1.1" 304 0
+INFO 2026-08-01 23:10:49,595 basehttp "GET /static/admin/js/jquery.init.js HTTP/1.1" 304 0
+INFO 2026-08-01 23:10:49,645 basehttp "GET /static/admin/js/actions.js HTTP/1.1" 304 0
+INFO 2026-08-01 23:10:49,645 basehttp "GET /static/admin/js/prepopulate.js HTTP/1.1" 304 0
+INFO 2026-08-01 23:10:49,645 basehttp "GET /static/admin/js/urlify.js HTTP/1.1" 304 0
+INFO 2026-08-01 23:10:49,646 basehttp "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 304 0
+INFO 2026-08-01 23:10:49,647 basehttp "GET /static/admin/css/widgets.css HTTP/1.1" 304 0
+INFO 2026-08-01 23:10:49,648 basehttp "GET /static/admin/js/vendor/xregexp/xregexp.min.js HTTP/1.1" 304 0
+INFO 2026-08-01 23:10:49,697 basehttp "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0
+INFO 2026-08-01 23:10:49,699 basehttp "GET /static/admin/js/filters.js HTTP/1.1" 304 0
